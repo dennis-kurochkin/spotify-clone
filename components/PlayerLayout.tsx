@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/layout'
 import type { ReactElement } from 'react'
+import Sidebar from './Sidebar'
 
 const PlayerLayout = ({ children }: { children: ReactElement }) => {
   return (
@@ -13,7 +14,7 @@ const PlayerLayout = ({ children }: { children: ReactElement }) => {
       }}
     >
       <Box as="aside">
-        sidebar
+        <Sidebar />
       </Box>
       <Box
         as="main"

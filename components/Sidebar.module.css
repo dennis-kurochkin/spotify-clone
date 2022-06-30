@@ -1,0 +1,15 @@
+.sidebar {
+    height: 100%;
+    padding: 24px 24px 0;
+    background-color: var(--colors-sidebar-background);
+}
+
+.logo {
+    margin: 0 0 16px;
+    filter: brightness(0) invert(1);
+}
+
+.menuLink {
+    color: var(--colors-text-main);
+    font-weight: 700;
+}
