@@ -10,6 +10,41 @@
 }
 
 .menuLink {
-    color: var(--colors-text-main);
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--colors-white);
     font-weight: 700;
+    transition: .3s all;
+    opacity: .7;
+}
+
+.menuLink:hover,
+.menuLinkCurrent {
+    opacity: 1;
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    border-radius: 2px;
+}
+
+.iconWrapper svg {
+    margin: 0;
+}
+
+.iconWrapperCreate {
+    color: var(--colors-black);
+    background-color: var(--colors-white);
+}
+
+.iconWrapperLiked {
+    color: var(--colors-white);
+    background: linear-gradient(135deg,#450af5,#c4efd9);
 }

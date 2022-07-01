@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.9.3",
     "@prisma/client": "^3.15.2",
     "bcrypt": "^5.0.1",
+    "classnames": "^2.3.1",
     "cookie": "^0.5.0",
     "cookies": "^0.8.0",
     "easy-peasy": "^5.0.4",

@@ -1,31 +1,44 @@
 import {
-  Box, LinkBox, LinkOverlay, List, ListIcon, ListItem,
+  Box, Divider, LinkBox, LinkOverlay, List, ListIcon, ListItem,
 } from '@chakra-ui/layout'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { MdHomeFilled, MdOutlineLibraryMusic, MdSearch } from 'react-icons/md'
+import {
+  MdAdd, MdFavorite, MdHomeFilled, MdOutlineLibraryMusic, MdSearch,
+} from 'react-icons/md'
+import classNames from 'classnames'
+import { useRouter } from 'next/router'
+import { IconType } from 'react-icons'
 import logo from '../public/logo.svg'
 import styles from './Sidebar.module.css'
 
-const navigationMenuData = [
+interface NavigationMenuItem {
+  title: string
+  icon: IconType
+  route: string
+}
+
+const navigationMenuData: NavigationMenuItem[] = [
   {
     title: 'Home',
-    href: '/',
     icon: MdHomeFilled,
+    route: '/',
   },
   {
     title: 'Search',
-    href: '/search',
     icon: MdSearch,
+    route: '/search',
   },
   {
     title: 'Your Library',
-    href: '/collection',
     icon: MdOutlineLibraryMusic,
+    route: '/collection',
   },
 ]
 
 const Sidebar = () => {
+  const { pathname } = useRouter()
+
   return (
     <Box className={styles.sidebar}>
       <Box className={styles.logo}>
@@ -42,21 +55,20 @@ const Sidebar = () => {
           </LinkOverlay>
         </NextLink>
       </Box>
-      <List
-        spacing={2}
-        marginBottom="24px"
-      >
-        {navigationMenuData.map(({ title, href, icon }) => (
+      <List marginBottom="24px">
+        {navigationMenuData.map(({ title, route, icon }) => (
           <ListItem key={title}>
             <LinkBox>
               <NextLink
-                href={href}
+                href={route}
                 passHref
               >
-                <LinkOverlay className={styles.menuLink}>
+                <LinkOverlay
+                  className={classNames(styles.menuLink, pathname === route && styles.menuLinkCurrent)}
+                >
                   <ListIcon
                     as={icon}
-                    color="white"
+                    fontSize="24px"
                     marginRight="16px"
                   />
                   {title}
@@ -66,6 +78,49 @@ const Sidebar = () => {
           </ListItem>
         ))}
       </List>
+      <List>
+        <ListItem>
+          <LinkBox>
+            <NextLink
+              href="/playlists/create"
+              passHref
+            >
+              <LinkOverlay
+                className={classNames(styles.menuLink, pathname === '/playlists/create' && styles.menuLinkCurrent)}
+              >
+                <Box className={classNames(styles.iconWrapper, styles.iconWrapperCreate)}>
+                  <ListIcon
+                    as={MdAdd}
+                    fontSize="16px"
+                  />
+                </Box>
+                Create Playlist
+              </LinkOverlay>
+            </NextLink>
+          </LinkBox>
+        </ListItem>
+        <ListItem>
+          <LinkBox>
+            <NextLink
+              href="/collection/tracks"
+              passHref
+            >
+              <LinkOverlay
+                className={classNames(styles.menuLink, pathname === '/collection/tracks' && styles.menuLinkCurrent)}
+              >
+                <Box className={classNames(styles.iconWrapper, styles.iconWrapperLiked)}>
+                  <ListIcon
+                    as={MdFavorite}
+                    fontSize="14px"
+                  />
+                </Box>
+                Liked Songs
+              </LinkOverlay>
+            </NextLink>
+          </LinkBox>
+        </ListItem>
+      </List>
+      <Divider marginY="12px" />
     </Box>
   )
 }
