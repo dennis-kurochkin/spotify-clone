@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app'
 import 'reset-css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import PlayerLayout from '../components/PlayerLayout'
+import '../styles/index.css'
 
 const theme = extendTheme({
   colors: {
