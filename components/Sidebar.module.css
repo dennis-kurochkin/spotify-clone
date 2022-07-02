@@ -13,10 +13,10 @@
     display: flex;
     align-items: center;
     padding: 8px 0;
-    font-size: 14px;
+    font-size: var(--font-size-400);
     color: var(--colors-white);
     font-weight: 700;
-    transition: .3s all;
+    transition: var(--transition);
     opacity: .7;
 }
 
@@ -47,4 +47,23 @@
 .iconWrapperLiked {
     color: var(--colors-white);
     background: linear-gradient(135deg,#450af5,#c4efd9);
+}
+
+.playlistsList {
+    height: calc(100% - 300px);
+    margin: 0 -24px;
+    padding: 12px 24px;
+    overflow-y: auto;
+}
+
+.playlistsLink {
+    display: block;
+    padding: 4px 0;
+    color: var(--colors-white);
+    font-size: var(--font-size-300);
+    opacity: .7;
+}
+
+.playlistsLink:hover {
+    opacity: 1;
 }

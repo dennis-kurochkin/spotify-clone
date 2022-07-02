@@ -13,7 +13,12 @@ const PlayerLayout = ({ children }: { children: ReactElement }) => {
         height: '100vh',
       }}
     >
-      <Box as="aside">
+      <Box
+        as="aside"
+        sx={{
+          overflow: 'hidden',
+        }}
+      >
         <Sidebar />
       </Box>
       <Box

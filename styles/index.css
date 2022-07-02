@@ -3,4 +3,7 @@
     --colors-white: #ffffff;
     --colors-black: #000000;
     --colors-gray-400: #b3b3b3;
+    --font-size-300: 13px;
+    --font-size-400: 14px;
+    --transition: .3s all;
 }

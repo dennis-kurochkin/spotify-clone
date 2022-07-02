@@ -36,6 +36,25 @@ const navigationMenuData: NavigationMenuItem[] = [
   },
 ]
 
+const playlistsData: string[] = [
+  'Disco',
+  'Pop-mix',
+  'Rock-n-roll',
+  'Classical Focus',
+  'Electro Swing',
+  'Jazz Vibes',
+  'Blues Vibes',
+  'Chillwave',
+  'Disco',
+  'Pop-mix',
+  'Rock-n-roll',
+  'Classical Focus',
+  'Electro Swing',
+  'Jazz Vibes',
+  'Blues Vibes',
+  'Chillwave',
+]
+
 const Sidebar = () => {
   const { pathname } = useRouter()
 
@@ -55,29 +74,31 @@ const Sidebar = () => {
           </LinkOverlay>
         </NextLink>
       </Box>
-      <List marginBottom="24px">
-        {navigationMenuData.map(({ title, route, icon }) => (
-          <ListItem key={title}>
-            <LinkBox>
-              <NextLink
-                href={route}
-                passHref
-              >
-                <LinkOverlay
-                  className={classNames(styles.menuLink, pathname === route && styles.menuLinkCurrent)}
+      <nav>
+        <List marginBottom="24px">
+          {navigationMenuData.map(({ title, route, icon }) => (
+            <ListItem key={title}>
+              <LinkBox>
+                <NextLink
+                  href={route}
+                  passHref
                 >
-                  <ListIcon
-                    as={icon}
-                    fontSize="24px"
-                    marginRight="16px"
-                  />
-                  {title}
-                </LinkOverlay>
-              </NextLink>
-            </LinkBox>
-          </ListItem>
-        ))}
-      </List>
+                  <LinkOverlay
+                    className={classNames(styles.menuLink, pathname === route && styles.menuLinkCurrent)}
+                  >
+                    <ListIcon
+                      as={icon}
+                      fontSize="24px"
+                      marginRight="16px"
+                    />
+                    {title}
+                  </LinkOverlay>
+                </NextLink>
+              </LinkBox>
+            </ListItem>
+          ))}
+        </List>
+      </nav>
       <List>
         <ListItem>
           <LinkBox>
@@ -120,7 +141,23 @@ const Sidebar = () => {
           </LinkBox>
         </ListItem>
       </List>
-      <Divider marginY="12px" />
+      <Divider marginTop="12px" />
+      <List className={styles.playlistsList}>
+        {playlistsData.map((playlist) => (
+          <ListItem key={playlist}>
+            <LinkBox>
+              <NextLink
+                href="/"
+                passHref
+              >
+                <LinkOverlay className={styles.playlistsLink}>
+                  {playlist}
+                </LinkOverlay>
+              </NextLink>
+            </LinkBox>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   )
 }
