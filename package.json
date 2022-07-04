@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@chakra-ui/layout": "^2.0.2",
     "@chakra-ui/react": "^2.2.1",
@@ -15,6 +18,7 @@
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@prisma/client": "^3.15.2",
+    "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
     "classnames": "^2.3.1",
     "cookie": "^0.5.0",
