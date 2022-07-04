@@ -42,3 +42,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 `npx prisma db seed` - generate data in database
 
 `npx prisma studio` - go in prisma studio
+
+`npx prisma migrate reset` - drop database and run migration (clears data)
