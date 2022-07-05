@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<ResponseData | R
       id: user.id,
       time: Date.now(),
     },
-    'hello',
+    process.env.JWT_SECRET,
     {
       expiresIn: '8h',
     }
