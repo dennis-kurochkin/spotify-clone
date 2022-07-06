@@ -1,21 +1,28 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import cookie from 'cookie'
 import { User } from '@prisma/client'
 import { prismaClient } from '../../lib/prisma'
+import { getAuthJWTCookie } from '../../helpers/auth'
+
+interface SignUpApiRequest extends NextApiRequest {
+  body: {
+    email: string
+    password: string
+  }
+}
 
 type ResponseData = {
   user: User
 }
 
 type ResponseDataError = {
-  message: string
+  message?: string
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse<ResponseData | ResponseDataError>) => {
+export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData | ResponseDataError>) => {
   if (req.method !== 'POST') {
-    return res.status(404)
+    res.status(405).json({})
+    return
   }
 
   const salt = bcrypt.genSaltSync()
@@ -31,32 +38,9 @@ export default async (req: NextApiRequest, res: NextApiResponse<ResponseData | R
       },
     })
   } catch (error) {
-    res.status(401)
-    res.json({ message: 'User already exists' })
+    res.status(400).json({ message: 'User already exists' })
   }
 
-  const token = jwt.sign(
-    {
-      email,
-      id: user.id,
-      time: Date.now(),
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: '8h',
-    }
-  )
-
-  res.setHeader(
-    'Set-Cookie',
-    cookie.serialize('SBOTIFY_ACCESS_TOKEN', token, {
-      httpOnly: true,
-      maxAge: 8 * 60 * 60,
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-    })
-  )
-
+  res.setHeader('Set-Cookie', getAuthJWTCookie({ email, id: user.id }))
   res.json({ user })
 }
