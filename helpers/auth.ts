@@ -17,7 +17,7 @@ export const getAuthJWT = ({ email, id }: Pick<User, 'email' | 'id'>) => {
   )
 }
 
-export const getAuthJWTCookie = (user: Pick<User, 'email' | 'id'>) => {
+export const getAuthJWTCookie = (user: Parameters<typeof getAuthJWT>[0]) => {
   return cookie.serialize(AUTH_JWT_COOKIE_NAME, getAuthJWT(user), {
     httpOnly: true,
     maxAge: AUTH_JWT_EXPIRES_IN_SECONDS,
