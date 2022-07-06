@@ -22,6 +22,7 @@ type ResponseDataError = {
 export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData | ResponseDataError>) => {
   if (req.method !== 'POST') {
     res.status(405).json({})
+    return
   }
 
   const salt = bcrypt.genSaltSync()
