@@ -15,33 +15,16 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    /**
+     * Basic linting
+     */
     'max-len': ['error', 120],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
-    'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'import/prefer-default-export': 'off',
     'no-param-reassign': 'off',
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        ts: 'never',
-        tsx: 'never',
-      },
-    ],
     'consistent-return': 'off',
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
-    'react/jsx-filename-extension': 'off',
-    'react/function-component-definition': [
-      'error',
-      {
-        namedComponents: 'arrow-function',
-        unnamedComponents: 'arrow-function',
-      },
-    ],
     'no-trailing-spaces': ['error'],
     indent: ['error', 2, { SwitchCase: 1 }],
     'no-multiple-empty-lines': ['error', { max: 1 }],
@@ -56,16 +39,42 @@ module.exports = {
     'space-before-function-paren': ['error', { anonymous: 'never', named: 'never', asyncArrow: 'always' }],
     'no-multi-spaces': ['error'],
     'eol-last': ['error', 'always'],
-    'unused-imports/no-unused-imports': 'error',
+
+    /**
+     * Imports
+     */
+    'unused-imports/no-unused-imports': 'warn',
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+
+    /**
+     * React and JSX
+     */
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'react/no-array-index-key': 'off',
+    'react/jsx-filename-extension': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'react/jsx-max-props-per-line': ['error', { maximum: 1 }],
+    'react/jsx-boolean-value': ['error', 'never'],
+    'react/jsx-closing-bracket-location': ['error'],
+    'react/jsx-closing-tag-location': ['error'],
     'react/jsx-sort-props': ['warn', {
       callbacksLast: true,
       shorthandLast: true,
       noSortAlphabetically: true,
       reservedFirst: true,
     }],
-    'react/jsx-boolean-value': ['error', 'never'],
-    'react/jsx-closing-bracket-location': ['error'],
-    'react/jsx-closing-tag-location': ['error'],
+    'react/function-component-definition': ['error', {
+      namedComponents: 'arrow-function',
+      unnamedComponents: 'arrow-function',
+    }],
   },
 }

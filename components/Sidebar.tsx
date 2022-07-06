@@ -143,8 +143,8 @@ const Sidebar = () => {
       </List>
       <Divider marginTop="12px" />
       <List className={styles.playlistsList}>
-        {playlistsData.map((playlist) => (
-          <ListItem key={playlist}>
+        {playlistsData.map((playlist, index) => (
+          <ListItem key={`${playlist}-${index}`}>
             <LinkBox>
               <NextLink
                 href="/"
