@@ -68,8 +68,8 @@ const Sidebar = () => {
           <LinkOverlay>
             <Image
               src={logo}
-              width="130px"
-              height="40px"
+              width="178px"
+              height="46px"
             />
           </LinkOverlay>
         </NextLink>
