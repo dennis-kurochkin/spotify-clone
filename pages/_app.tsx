@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
 import 'reset-css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { FC } from 'react'
 import PlayerLayout from '../components/PlayerLayout'
 import '../styles/index.css'
 
@@ -31,12 +32,20 @@ const theme = extendTheme({
   },
 })
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+interface CustomAppProps extends AppProps {
+  Component: AppProps['Component'] & { disableLayout?: boolean }
+}
+
+const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
   return (
     <ChakraProvider theme={theme}>
-      <PlayerLayout>
+      {Component.disableLayout ? (
         <Component {...pageProps} />
-      </PlayerLayout>
+      ) : (
+        <PlayerLayout>
+          <Component {...pageProps} />
+        </PlayerLayout>
+      )}
     </ChakraProvider>
   )
 }

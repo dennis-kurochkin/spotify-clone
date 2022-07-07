@@ -1,0 +1,17 @@
+.wrapper {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    min-height: 100vh;
+}
+
+.logoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+}
+
+.logoLink {
+    position: relative;
+    line-height: 0;
+}
