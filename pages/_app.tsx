@@ -18,14 +18,31 @@ const theme = extendTheme({
       800: '#424242',
       900: '#212121',
     },
+    green: {
+      400: '#1CDF63',
+      500: '#1ed760',
+      600: '#1CDF63',
+    },
   },
   components: {
     Button: {
+      baseStyle: {
+        borderRadius: '500px',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        fontWeight: 'bold',
+      },
       variants: {
         link: {
           ':focus': {
             boxShadow: 'none',
           },
+        },
+      },
+      sizes: {
+        lg: {
+          fontSize: 'sm',
+          height: '48px',
         },
       },
     },
