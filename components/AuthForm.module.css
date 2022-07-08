@@ -1,0 +1,55 @@
+.wrapper {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    min-height: 100vh;
+}
+
+.logoWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+}
+
+.logoLink {
+    position: relative;
+    line-height: 0;
+}
+
+.form {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 48px 0;
+}
+
+.formTitle {
+    margin: 0 0 24px;
+    text-align: center;
+    font-weight: 600;
+    font-size: var(--font-size-400);
+}
+
+.formFields {
+    display: grid;
+    gap: 16px;
+}
+
+.inputLabel {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: bold;
+    font-size: var(--font-size-400);
+}
+
+.submitButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px 0 0;
+}
+
+.altText {
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: var(--font-size-600);
+    font-weight: bold;
+}
