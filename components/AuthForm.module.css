@@ -25,7 +25,7 @@
 .formTitle {
     margin: 0 0 24px;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
     font-size: var(--font-size-400);
 }
 
@@ -39,4 +39,17 @@
     margin: 0 0 8px;
     font-weight: bold;
     font-size: var(--font-size-400);
+}
+
+.submitButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin: 16px 0 0;
+}
+
+.altText {
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: var(--font-size-600);
+    font-weight: bold;
 }

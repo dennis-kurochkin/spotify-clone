@@ -20,6 +20,14 @@ const AuthForm: FC<Props> = ({ mode }) => {
   const [isLoading, setLoading] = useState(false)
   const router = useRouter()
 
+  const handleSubmit = async () => {
+    setLoading(true)
+    await new Promise((resolve) => { setTimeout(resolve, 1000) })
+    setLoading(false)
+
+    await router.push('/')
+  }
+
   return (
     <Box className={styles.wrapper}>
       <Box className={styles.logoWrapper}>
@@ -39,7 +47,9 @@ const AuthForm: FC<Props> = ({ mode }) => {
       <Box>
         <Divider sx={{ color: 'var(--colors-gray-400)' }} />
         <Box className={styles.form}>
-          <Text className={styles.formTitle}>To continue, login to Sbotify.</Text>
+          <Text className={styles.formTitle}>
+            {mode === 'signin' ? 'To continue, login to Sbotify.' : 'To continue, create and account for Sbotify.'}
+          </Text>
           <Box className={styles.formFields}>
             <Box>
               <Text
@@ -50,12 +60,13 @@ const AuthForm: FC<Props> = ({ mode }) => {
               </Text>
               <Input
                 value={email}
+                disabled={isLoading}
                 placeholder="Email address"
                 type="email"
                 size="lg"
                 borderColor="gray.500"
                 _placeholder={{ fontSize: 'md' }}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                onChange={({ target }: ChangeEvent<HTMLInputElement>) => setEmail(target.value)}
               />
             </Box>
             <Box>
@@ -67,32 +78,52 @@ const AuthForm: FC<Props> = ({ mode }) => {
               </Text>
               <Input
                 value={password}
+                disabled={isLoading}
                 placeholder="Password"
                 type="password"
                 size="lg"
                 borderColor="gray.500"
                 _placeholder={{ fontSize: 'md' }}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+                onChange={({ target }: ChangeEvent<HTMLInputElement>) => setPassword(target.value)}
               />
             </Box>
           </Box>
-          <Button
-            type="submit"
-            size="lg"
-            colorScheme="green"
-            color="black"
+          <Box className={styles.submitButtonContainer}>
+            <Button
+              type="submit"
+              size="lg"
+              colorScheme="green"
+              color="black"
+              width="100%"
+              isLoading={isLoading}
+              onClick={handleSubmit}
+            >
+              {mode === 'signin' ? 'Sign In' : 'Sign Up'}
+            </Button>
+          </Box>
+          <Divider
+            sx={{ color: 'var(--colors-gray-400)' }}
+            marginY="32px"
+          />
+          <Text className={styles.altText}>
+            {mode === 'signin' ? 'Don\'t have an account?' : 'Already have an account?'}
+          </Text>
+          <NextLink
+            href={mode === 'signin' ? '/signup' : '/signin'}
+            passHref
           >
-            Sign In
-          </Button>
-          <Divider />
-          <Button
-            type="submit"
-            size="lg"
-            colorScheme="green"
-            color="black"
-          >
-            Sign Up For Sbotify
-          </Button>
+            <Button
+              as="a"
+              variant="outline"
+              size="lg"
+              colorScheme="black"
+              width="100%"
+            >
+              {mode === 'signin' ? 'Sign Up' : 'Sign In'}
+              {' '}
+              For Sbotify
+            </Button>
+          </NextLink>
         </Box>
       </Box>
     </Box>
