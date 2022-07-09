@@ -2,13 +2,16 @@ import { useRouter } from 'next/router'
 import {
   Box, Divider, Link, Text,
 } from '@chakra-ui/layout'
-import { ChangeEvent, FC, useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { Button, Input } from '@chakra-ui/react'
-import { AuthenticateMode } from '../lib/mutations'
+import {
+  Button, FormControl, FormLabel, Input, useToast,
+} from '@chakra-ui/react'
+import { authenticate, AuthenticateMode } from '../lib/mutations'
 import logo from '../public/logo.svg'
 import styles from './AuthForm.module.css'
+import { logError } from '../helpers'
 
 interface Props {
   mode: AuthenticateMode
@@ -18,14 +21,48 @@ const AuthForm: FC<Props> = ({ mode }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setLoading] = useState(false)
+  const [isFormSubmitted, setFormSubmitted] = useState(false)
+  const toast = useToast()
   const router = useRouter()
 
-  const handleSubmit = async () => {
-    setLoading(true)
-    await new Promise((resolve) => { setTimeout(resolve, 1000) })
-    setLoading(false)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
 
-    await router.push('/')
+    setLoading(true)
+    setFormSubmitted(true)
+
+    if (!password || !email) {
+      setLoading(false)
+      return
+    }
+
+    try {
+      const response = await authenticate(mode, {
+        email,
+        password,
+      })
+
+      if (!response.ok) throw response
+
+      toast({
+        title: mode === 'signin' ? 'Sign in successful' : 'Account was created',
+        status: 'success',
+        variant: 'subtle',
+      })
+
+      setTimeout(async () => {
+        await router.push('/')
+      }, 1000)
+    } catch (error) {
+      logError(error)
+      toast({
+        title: `An error occurred during ${mode === 'signin' ? 'signing in' : 'signing up'}`,
+        status: 'error',
+        variant: 'subtle',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -46,47 +83,55 @@ const AuthForm: FC<Props> = ({ mode }) => {
       </Box>
       <Box>
         <Divider sx={{ color: 'var(--colors-gray-400)' }} />
-        <Box className={styles.form}>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+        >
           <Text className={styles.formTitle}>
-            {mode === 'signin' ? 'To continue, login to Sbotify.' : 'To continue, create and account for Sbotify.'}
+            {mode === 'signin' ? 'To continue, login to Sbotify.' : 'To continue, create an account for Sbotify.'}
           </Text>
           <Box className={styles.formFields}>
-            <Box>
-              <Text
+            <FormControl isInvalid={!email && isFormSubmitted}>
+              <FormLabel
                 className={styles.inputLabel}
-                as="label"
+                htmlFor="email"
               >
                 Email address:
-              </Text>
+              </FormLabel>
               <Input
                 value={email}
                 disabled={isLoading}
+                id="email"
                 placeholder="Email address"
                 type="email"
                 size="lg"
                 borderColor="gray.500"
+                errorBorderColor="red.300"
                 _placeholder={{ fontSize: 'md' }}
                 onChange={({ target }: ChangeEvent<HTMLInputElement>) => setEmail(target.value)}
               />
-            </Box>
-            <Box>
-              <Text
+            </FormControl>
+            <FormControl isInvalid={!password && isFormSubmitted}>
+              <FormLabel
                 className={styles.inputLabel}
-                as="label"
+                htmlFor="password"
               >
                 Password:
-              </Text>
+              </FormLabel>
               <Input
                 value={password}
+                isInvalid={!password && isFormSubmitted}
                 disabled={isLoading}
+                id="password"
                 placeholder="Password"
                 type="password"
                 size="lg"
                 borderColor="gray.500"
+                errorBorderColor="red.300"
                 _placeholder={{ fontSize: 'md' }}
                 onChange={({ target }: ChangeEvent<HTMLInputElement>) => setPassword(target.value)}
               />
-            </Box>
+            </FormControl>
           </Box>
           <Box className={styles.submitButtonContainer}>
             <Button
@@ -96,7 +141,6 @@ const AuthForm: FC<Props> = ({ mode }) => {
               color="black"
               width="100%"
               isLoading={isLoading}
-              onClick={handleSubmit}
             >
               {mode === 'signin' ? 'Sign In' : 'Sign Up'}
             </Button>
@@ -114,6 +158,7 @@ const AuthForm: FC<Props> = ({ mode }) => {
           >
             <Button
               as="a"
+              type="button"
               variant="outline"
               size="lg"
               colorScheme="black"
@@ -124,7 +169,7 @@ const AuthForm: FC<Props> = ({ mode }) => {
               For Sbotify
             </Button>
           </NextLink>
-        </Box>
+        </form>
       </Box>
     </Box>
   )
