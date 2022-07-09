@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
 import { User } from '@prisma/client'
 import { prismaClient } from '../../lib/prisma'
-import { getAuthJWTCookie } from '../../helpers/auth'
+import { getAuthJWTCookie, isPrismaConnectionError } from '../../helpers/auth'
 
 interface SignUpApiRequest extends NextApiRequest {
   body: {
@@ -17,6 +17,7 @@ type ResponseData = {
 
 type ResponseDataError = {
   message?: string
+  error?: unknown
 }
 
 export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData | ResponseDataError>) => {
@@ -28,19 +29,27 @@ export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData |
   const salt = bcrypt.genSaltSync()
   const { email, password } = req.body
 
-  let user: User
-
   try {
-    user = await prismaClient.user.create({
+    const user: User = await prismaClient.user.create({
       data: {
         email,
         password: bcrypt.hashSync(password, salt),
       },
     })
-  } catch (error) {
-    res.status(400).json({ message: 'User already exists' })
-  }
 
-  res.setHeader('Set-Cookie', getAuthJWTCookie({ email, id: user.id }))
-  res.json({ user })
+    res.setHeader('Set-Cookie', getAuthJWTCookie({ email, id: user.id }))
+    res.json({ user })
+  } catch (error) {
+    if (isPrismaConnectionError(error)) {
+      res.status(500).json({
+        message: 'Prisma connection error',
+        error,
+      })
+    } else {
+      res.status(400).json({
+        message: 'User already exists',
+        error,
+      })
+    }
+  }
 }

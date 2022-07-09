@@ -22,6 +22,7 @@ const theme = extendTheme({
       400: '#1CDF63',
       500: '#1ed760',
       600: '#1CDF63',
+      700: '#13ac48',
     },
   },
   components: {

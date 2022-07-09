@@ -26,3 +26,12 @@ export const getAuthJWTCookie = (user: Parameters<typeof getAuthJWT>[0]) => {
     secure: process.env.NODE_ENV === 'production',
   })
 }
+
+export const isPrismaConnectionError = (error: unknown): boolean => {
+  // @ts-expect-error
+  if (typeof error === 'object' && !!error.clientVersion) { // @ts-expect-error
+    return Object.keys(error).length === 2 && !!error.clientVersion && !error.errorCode
+  }
+
+  return false
+}
