@@ -6,12 +6,13 @@ import React, { ChangeEvent, FC, useState } from 'react'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import {
-  Button, FormControl, FormLabel, Input, useToast,
+  Button, FormControl, FormLabel, Input,
 } from '@chakra-ui/react'
 import { authenticate, AuthenticateMode } from '../lib/mutations'
 import logo from '../public/logo.svg'
 import styles from './AuthForm.module.css'
 import { logError } from '../helpers'
+import { useToast } from '../hooks/useToast'
 
 interface Props {
   mode: AuthenticateMode
@@ -41,13 +42,13 @@ const AuthForm: FC<Props> = ({ mode }) => {
         email,
         password,
       })
+      const data = await response.json()
 
-      if (!response.ok) throw response
+      if (!response.ok) throw data
 
       toast({
         title: mode === 'signin' ? 'Sign in successful' : 'Account was created',
         status: 'success',
-        variant: 'subtle',
       })
 
       setTimeout(async () => {
@@ -56,9 +57,8 @@ const AuthForm: FC<Props> = ({ mode }) => {
     } catch (error) {
       logError(error)
       toast({
-        title: `An error occurred during ${mode === 'signin' ? 'signing in' : 'signing up'}`,
+        title: error.message ?? `An error occurred during ${mode === 'signin' ? 'signing in' : 'signing up'}`,
         status: 'error',
-        variant: 'subtle',
       })
     } finally {
       setLoading(false)
