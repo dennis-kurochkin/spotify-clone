@@ -1,7 +1,10 @@
 import { User } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { AUTH_JWT_COOKIE_NAME, AUTH_JWT_EXPIRES_IN_HOURS, AUTH_JWT_EXPIRES_IN_SECONDS } from '../constants/auth'
+import { logError } from './index'
+import { prismaClient } from '../lib/prisma'
 
 export const getAuthJWT = ({ email, id }: Pick<User, 'email' | 'id'>) => {
   return jwt.sign(
@@ -27,11 +30,36 @@ export const getAuthJWTCookie = (user: Parameters<typeof getAuthJWT>[0]) => {
   })
 }
 
-export const isPrismaConnectionError = (error: unknown): boolean => {
-  // @ts-expect-error
-  if (typeof error === 'object' && !!error.clientVersion) { // @ts-expect-error
-    return Object.keys(error).length === 2 && !!error.clientVersion && !error.errorCode
-  }
+export const validateRoute = async (handler: (req: NextApiRequest, res: NextApiResponse, user: User) => void) => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    const token = req.cookies[AUTH_JWT_COOKIE_NAME]
+    let user: User
 
-  return false
+    if (token) {
+      try {
+        // @ts-ignore TODO: fix TypeScript error while when function starts to be used
+        const { id } = jwt.verify(token, process.env.JWT_SECRET)
+        user = await prismaClient.user.findUnique({
+          where: {
+            id,
+          },
+        })
+
+        if (!user) throw new Error('User is invalid')
+      } catch (error) {
+        logError(error)
+        res.status(401).json({
+          message: 'Not Authorized',
+          error,
+        })
+        return
+      }
+
+      return handler(req, res, user)
+    }
+
+    res.status(401).json({
+      message: 'Not Authorized',
+    })
+  }
 }

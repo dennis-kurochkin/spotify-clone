@@ -18,7 +18,7 @@ module.exports = {
     /**
      * Basic linting
      */
-    'max-len': ['error', 120],
+    'max-len': ['error', 120, { ignoreComments: true }],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'no-param-reassign': 'off',

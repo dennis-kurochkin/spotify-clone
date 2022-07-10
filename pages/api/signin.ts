@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
-import { prismaClient } from '../../lib/prisma'
-import { getAuthJWTCookie, isPrismaConnectionError } from '../../helpers/auth'
+import { isPrismaConnectionError, prismaClient } from '../../lib/prisma'
+import { getAuthJWTCookie } from '../../helpers/auth'
 
 interface SignInApiRequest extends NextApiRequest {
   body: {
