@@ -8,9 +8,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
+    ecmaFeatures: { jsx: true },
     ecmaVersion: 13,
     sourceType: 'module',
   },
@@ -21,24 +19,43 @@ module.exports = {
     'max-len': ['error', 120, { ignoreComments: true }],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
-    'no-param-reassign': 'off',
     'consistent-return': 'off',
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
-    'no-trailing-spaces': ['error'],
     indent: ['error', 2, { SwitchCase: 1 }],
-    'no-multiple-empty-lines': ['error', { max: 1 }],
     'comma-dangle': ['error', {
       arrays: 'always-multiline',
       objects: 'always-multiline',
       imports: 'always-multiline',
       exports: 'always-multiline',
     }],
-    'object-curly-spacing': ['error', 'always'],
-    'space-before-blocks': ['error', { functions: 'always', keywords: 'always', classes: 'always' }],
-    'space-before-function-paren': ['error', { anonymous: 'never', named: 'never', asyncArrow: 'always' }],
-    'no-multi-spaces': ['error'],
     'eol-last': ['error', 'always'],
+    'object-curly-spacing': ['error', 'always'],
+    'object-curly-newline': ['error', {
+      ImportDeclaration: 'never',
+      ObjectExpression: {
+        multiline: true,
+        minProperties: 2,
+      },
+      ObjectPattern: {
+        multiline: true,
+        minProperties: 5,
+      },
+      ExportDeclaration: {
+        multiline: true,
+        minProperties: 5,
+      },
+    }],
+    'space-before-blocks': ['error', {
+      functions: 'always', keywords: 'always', classes: 'always',
+    }],
+    'space-before-function-paren': ['error', {
+      anonymous: 'never', named: 'never', asyncArrow: 'always',
+    }],
+    'no-multi-spaces': ['error'],
+    'no-param-reassign': 'off',
+    'no-trailing-spaces': ['error'],
+    'no-multiple-empty-lines': ['error', { max: 1 }],
 
     /**
      * Imports

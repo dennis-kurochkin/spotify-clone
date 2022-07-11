@@ -1,13 +1,9 @@
 import { useRouter } from 'next/router'
-import {
-  Box, Divider, Link, Text,
-} from '@chakra-ui/layout'
+import { Box, Divider, Link, Text } from '@chakra-ui/layout'
 import React, { ChangeEvent, FC, useState } from 'react'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import {
-  Button, FormControl, FormLabel, Input,
-} from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { authenticate, AuthenticateMode } from '../lib/mutations'
 import logo from '../public/logo.svg'
 import styles from './AuthForm.module.css'
@@ -38,13 +34,10 @@ const AuthForm: FC<Props> = ({ mode }) => {
     }
 
     try {
-      const response = await authenticate(mode, {
+      await authenticate(mode, {
         email,
         password,
       })
-      const data = await response.json()
-
-      if (!response.ok) throw data
 
       toast({
         title: mode === 'signin' ? 'Sign in successful' : 'Account was created',
