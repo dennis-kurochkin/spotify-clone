@@ -1,16 +1,13 @@
-import {
-  Box, Divider, LinkBox, LinkOverlay, List, ListIcon, ListItem,
-} from '@chakra-ui/layout'
+import { Box, Divider, LinkBox, LinkOverlay, List, ListIcon, ListItem } from '@chakra-ui/layout'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import {
-  MdAdd, MdFavorite, MdHomeFilled, MdOutlineLibraryMusic, MdSearch,
-} from 'react-icons/md'
+import { MdAdd, MdFavorite, MdHomeFilled, MdOutlineLibraryMusic, MdSearch } from 'react-icons/md'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { IconType } from 'react-icons'
 import logo from '../public/logo.svg'
 import styles from './Sidebar.module.css'
+import { useApiPlaylists } from '../hooks/useApi'
 
 interface NavigationMenuItem {
   title: string
@@ -57,6 +54,7 @@ const playlistsData: string[] = [
 
 const Sidebar = () => {
   const { pathname } = useRouter()
+  const { playlists, error, isLoading } = useApiPlaylists()
 
   return (
     <Box className={styles.sidebar}>
@@ -143,15 +141,15 @@ const Sidebar = () => {
       </List>
       <Divider marginTop="12px" />
       <List className={styles.playlistsList}>
-        {playlistsData.map((playlist, index) => (
-          <ListItem key={`${playlist}-${index}`}>
+        {playlists.map((playlist, index) => (
+          <ListItem key={`${playlist.id}-${index}`}>
             <LinkBox>
               <NextLink
-                href="/"
+                href={`/playlists/${playlist.id}`}
                 passHref
               >
                 <LinkOverlay className={styles.playlistsLink}>
-                  {playlist}
+                  {playlist.name}
                 </LinkOverlay>
               </NextLink>
             </LinkBox>

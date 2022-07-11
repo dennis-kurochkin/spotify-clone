@@ -21,16 +21,15 @@ export default async (req: SignInApiRequest, res: NextApiResponse) => {
   let user: User
 
   try {
-    user = await prismaClient.user.findUnique({
-      where: {
-        email,
-      },
-    })
+    user = await prismaClient.user.findUnique({ where: { email } })
 
     if (!user) throw new Error('User is not found')
 
     if (bcrypt.compareSync(password, user.password)) {
-      res.setHeader('Set-Cookie', getAuthJWTCookie({ email, id: user.id }))
+      res.setHeader('Set-Cookie', getAuthJWTCookie({
+        email,
+        id: user.id,
+      }))
       res.json({ user })
     } else {
       res.status(400).json({ message: 'Password don\'t match' })
