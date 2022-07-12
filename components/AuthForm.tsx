@@ -7,7 +7,7 @@ import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { authenticate, AuthenticateMode } from '../lib/mutations'
 import logo from '../public/logo.svg'
 import styles from './AuthForm.module.css'
-import { logError } from '../helpers'
+import { getApiErrorMessage, logError } from '../helpers'
 import { useToast } from '../hooks/useToast'
 
 interface Props {
@@ -34,10 +34,13 @@ const AuthForm: FC<Props> = ({ mode }) => {
     }
 
     try {
-      await authenticate(mode, {
+      const response = await authenticate(mode, {
         email,
         password,
       })
+      const data = await response.json()
+
+      if (!response.ok) throw data
 
       toast({
         title: mode === 'signin' ? 'Sign in successful' : 'Account was created',
@@ -50,7 +53,7 @@ const AuthForm: FC<Props> = ({ mode }) => {
     } catch (error) {
       logError(error)
       toast({
-        title: error.message ?? `An error occurred during ${mode === 'signin' ? 'signing in' : 'signing up'}`,
+        title: getApiErrorMessage(error, `An error occurred during ${mode === 'signin' ? 'signing in' : 'signing up'}`),
         status: 'error',
       })
     } finally {

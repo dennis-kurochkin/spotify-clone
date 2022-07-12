@@ -26,9 +26,7 @@ const run = async () => {
 
   const salt = bcrypt.genSaltSync()
   const user = await prisma.user.upsert({
-    where: {
-      email: 'user@test.com',
-    },
+    where: { email: 'user@test.com' },
     update: {},
     create: {
       email: 'user@test.com',
@@ -42,12 +40,12 @@ const run = async () => {
       data: {
         name: `Playlist #${index + 1}`,
         user: {
-          connect: { id: user.id },
+          connect: {
+            id: user.id,
+          },
         },
         songs: {
-          connect: songs.map((song) => ({
-            id: song.id,
-          })),
+          connect: songs.map((song) => ({ id: song.id })),
         },
       },
     })

@@ -1,10 +1,11 @@
-import { Box, Divider, LinkBox, LinkOverlay, List, ListIcon, ListItem } from '@chakra-ui/layout'
+import { Box, Divider, LinkBox, LinkOverlay, List, ListIcon, ListItem, Stack } from '@chakra-ui/layout'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { MdAdd, MdFavorite, MdHomeFilled, MdOutlineLibraryMusic, MdSearch } from 'react-icons/md'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { IconType } from 'react-icons'
+import { Skeleton } from '@chakra-ui/react'
 import logo from '../public/logo.svg'
 import styles from './Sidebar.module.css'
 import { useApiPlaylists } from '../hooks/useApi'
@@ -33,28 +34,9 @@ const navigationMenuData: NavigationMenuItem[] = [
   },
 ]
 
-const playlistsData: string[] = [
-  'Disco',
-  'Pop-mix',
-  'Rock-n-roll',
-  'Classical Focus',
-  'Electro Swing',
-  'Jazz Vibes',
-  'Blues Vibes',
-  'Chillwave',
-  'Disco',
-  'Pop-mix',
-  'Rock-n-roll',
-  'Classical Focus',
-  'Electro Swing',
-  'Jazz Vibes',
-  'Blues Vibes',
-  'Chillwave',
-]
-
 const Sidebar = () => {
   const { pathname } = useRouter()
-  const { playlists, error, isLoading } = useApiPlaylists()
+  const { playlists, isLoading: isPlaylistsLoading } = useApiPlaylists()
 
   return (
     <Box className={styles.sidebar}>
@@ -155,6 +137,18 @@ const Sidebar = () => {
             </LinkBox>
           </ListItem>
         ))}
+        {isPlaylistsLoading && (
+          <Stack>
+            {new Array(3).fill(null).map((_, index) => (
+              <Skeleton
+                key={index}
+                height="20px"
+                startColor="gray.700"
+                endColor="gray.800"
+              />
+            ))}
+          </Stack>
+        )}
       </List>
     </Box>
   )
