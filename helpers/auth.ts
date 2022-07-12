@@ -30,15 +30,15 @@ export const getAuthJWTCookie = (user: Parameters<typeof getAuthJWT>[0]) => {
   })
 }
 
-export const validateRoute = async (handler: (req: NextApiRequest, res: NextApiResponse, user: User) => void) => {
+export const validateRoute = (handler: (req: NextApiRequest, res: NextApiResponse, user: User) => void) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const token = req.cookies[AUTH_JWT_COOKIE_NAME]
-    let user: User
+    let user: User | null = null
 
     if (token) {
       try {
-        // @ts-ignore TODO: fix TypeScript error while when function starts to be used
-        const { id } = jwt.verify(token, process.env.JWT_SECRET)
+        const { id } = jwt.verify(token, process.env.JWT_SECRET) as User
+
         user = await prismaClient.user.findUnique({
           where: {
             id,

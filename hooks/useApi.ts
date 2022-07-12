@@ -1,22 +1,28 @@
 import useSWR from 'swr'
-import fetcher from '../lib/fetcher'
+import { Playlist, User } from '@prisma/client'
+import fetcherSWR from '../lib/fetcher'
 
-export const useApiMe = () => {
-  const { data, error } = useSWR('/me', fetcher)
+type SWRHookReturnValue = {
+  isError?: unknown
+  isLoading: boolean
+}
+
+export const useApiMe = (): SWRHookReturnValue & { user?: User } => {
+  const { data, error } = useSWR<User>('/me', fetcherSWR)
 
   return {
-    user: data ?? [],
-    error,
+    user: data,
+    isError: error,
     isLoading: !data && !error,
   }
 }
 
-export const useApiPlaylists = () => {
-  const { data, error } = useSWR('/playlist', fetcher)
+export const useApiPlaylists = (): SWRHookReturnValue & { playlists: Playlist[] } => {
+  const { data, error } = useSWR<Playlist[]>('/playlist', fetcherSWR)
 
   return {
     playlists: data ?? [],
-    error,
+    isError: error,
     isLoading: !data && !error,
   }
 }

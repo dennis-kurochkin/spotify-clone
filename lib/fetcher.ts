@@ -1,12 +1,12 @@
-export default function fetcher(url: string, data = undefined) {
+export const fetcher = <T>(url: string, data?: T) => {
   return fetch(`${window.location.origin}/api${url}`, {
     method: data ? 'POST' : 'GET',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
     body: JSON.stringify(data),
-  }).then((result) => {
-    if (!result.ok) throw new Error()
-
-    return result.json()
   })
+}
+
+export default function fetcherSWR(url: string, data = undefined) {
+  return fetcher(url, data).then((response) => response.json())
 }

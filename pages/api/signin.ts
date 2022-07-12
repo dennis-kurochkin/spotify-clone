@@ -18,7 +18,7 @@ export default async (req: SignInApiRequest, res: NextApiResponse) => {
   }
 
   const { email, password } = req.body
-  let user: User
+  let user: User | null
 
   try {
     user = await prismaClient.user.findUnique({ where: { email } })
