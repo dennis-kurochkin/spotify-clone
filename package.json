@@ -15,7 +15,6 @@
   "dependencies": {
     "@chakra-ui/layout": "^2.0.2",
     "@chakra-ui/react": "^2.2.1",
-    "@dh-react-hooks/use-raf": "^0.9.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@prisma/client": "^3.15.2",
