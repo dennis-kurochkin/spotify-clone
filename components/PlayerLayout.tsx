@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/layout'
 import type { ReactElement } from 'react'
 import Sidebar from './Sidebar'
+import ProfileBadge from './ProfileBadge'
 
 const PlayerLayout = ({ children }: { children: ReactElement }) => {
   return (
@@ -25,8 +26,10 @@ const PlayerLayout = ({ children }: { children: ReactElement }) => {
         as="main"
         sx={{
           overflow: 'auto',
+          backgroundColor: 'var(--colors-background-400)',
         }}
       >
+        <ProfileBadge name="John Doe" />
         {children}
       </Box>
       <Box

@@ -1,0 +1,19 @@
+.button {
+    position: absolute;
+    top: 16px;
+    right: 32px;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    padding: 2px 12px 2px 2px;
+    color: var(--colors-white);
+    background: var(--colors-sidebar-background);
+    border-radius: 500px;
+}
+
+.name {
+    font-size: var(--font-size-400);
+    font-weight: bold;
+}
