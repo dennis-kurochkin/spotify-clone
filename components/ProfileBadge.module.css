@@ -1,0 +1,31 @@
+.button {
+    position: absolute;
+    top: 16px;
+    right: 32px;
+    padding: 2px 8px 2px 2px;
+    background: var(--colors-background-700);
+    border-radius: 500px;
+    color: var(--colors-white);
+}
+
+.buttonFocused,
+.button:hover,
+.button:focus {
+    background: var(--colors-background-200) !important;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+}
+
+.name {
+    margin-right: 4px;
+    font-size: var(--font-size-400);
+    font-weight: bold;
+}
+
+.iconRotated {
+    transform: rotate(180deg);
+    margin-bottom: -2px;
+}

@@ -1,5 +1,8 @@
 :root {
-    --colors-sidebar-background: #000000;
+    --colors-background-200: #3e3e3e;
+    --colors-background-300: #282828;
+    --colors-background-400: #121212;
+    --colors-background-700: #000000;
     --colors-white: #ffffff;
     --colors-black: #000000;
     --colors-gray-400: #b3b3b3;
