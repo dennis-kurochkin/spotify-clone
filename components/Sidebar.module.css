@@ -1,7 +1,7 @@
 .sidebar {
     height: 100%;
     padding: 24px 24px 0;
-    background-color: var(--colors-sidebar-background);
+    background-color: var(--colors-background-700);
 }
 
 .logo {
