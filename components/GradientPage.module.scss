@@ -1,0 +1,35 @@
+.page {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  height: 100%;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  gap: 24px;
+  padding: 32px 32px 24px;
+  color: var(--colors-white);
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.subtitle {
+  text-transform: uppercase;
+  font-size: var(--font-size-300);
+  font-weight: 700;
+}
+
+.title {
+  font-size: var(--font-size-900);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.content {
+  padding: 24px 32px;
+}

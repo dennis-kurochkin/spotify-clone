@@ -77,6 +77,10 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
+    'react/jsx-curly-brace-presence': ['warn', {
+      props: 'always',
+      children: 'never',
+    }],
     'react/jsx-max-props-per-line': ['error', { maximum: 1 }],
     'react/jsx-boolean-value': ['error', 'never'],
     'react/jsx-closing-bracket-location': ['error'],
