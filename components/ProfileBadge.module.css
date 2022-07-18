@@ -1,5 +1,5 @@
 .button {
-    position: absolute;
+    position: fixed;
     top: 16px;
     right: 32px;
     padding: 2px 8px 2px 2px;
@@ -21,7 +21,7 @@
 
 .name {
     margin-right: 4px;
-    font-size: var(--font-size-400);
+    font-size: var(--font-size-300);
     font-weight: bold;
 }
 

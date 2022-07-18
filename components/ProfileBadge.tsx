@@ -1,16 +1,18 @@
-import { Avatar, Menu, MenuButton, MenuList } from '@chakra-ui/react'
+import { Avatar, Menu, MenuButton, MenuList, Skeleton } from '@chakra-ui/react'
 import { Box, Text } from '@chakra-ui/layout'
-import { MdArrowDropDown } from 'react-icons/md'
+import { MdArrowDropDown, MdPersonOutline } from 'react-icons/md'
 import classNames from 'classnames'
 import styles from './ProfileBadge.module.css'
 import ProfileBadgeMenuItem from './ProfileBadgeMenuItem'
+import { useApiMe } from '../hooks/useApi'
 
 interface Props {
-  name: string
-  avatarURL: string
+  avatarURL?: string
 }
 
-const ProfileBadge = ({ name, avatarURL }: Props) => {
+const ProfileBadge = ({ avatarURL }: Props) => {
+  const { user, isLoading } = useApiMe()
+
   return (
     <Menu>
       {({ isOpen }) => (
@@ -21,12 +23,23 @@ const ProfileBadge = ({ name, avatarURL }: Props) => {
             <Box className={styles.badge}>
               <Avatar
                 src={avatarURL}
-                size="sm"
-                name={name}
+                icon={<MdPersonOutline size="24px" />}
+                sx={{
+                  width: '28px',
+                  height: '28px',
+                }}
                 mr="10px"
               />
               <Text className={styles.name}>
-                {name}
+                {!isLoading && !!user ? user.name : (
+                  <Skeleton
+                    as="span"
+                    display="inline-block"
+                    width="54px"
+                    height="16px"
+                    mt="4px"
+                  />
+                )}
               </Text>
               <MdArrowDropDown
                 className={classNames([isOpen && styles.iconRotated])}
@@ -37,7 +50,8 @@ const ProfileBadge = ({ name, avatarURL }: Props) => {
           <MenuList
             minWidth="200px"
             backgroundColor="var(--colors-background-300)"
-            paddingX="8px"
+            padding="4px"
+            boxShadow="lg"
           >
             <ProfileBadgeMenuItem href="/profile">
               Profile
