@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Box, Text } from '@chakra-ui/layout'
 import { Avatar } from '@chakra-ui/react'
-import { MdPersonOutline } from 'react-icons/md'
+import { MdLibraryMusic, MdPersonOutline } from 'react-icons/md'
 
 import styles from './GradientPage.module.scss'
 
@@ -23,6 +23,22 @@ interface Props {
 const GradientPage = ({
   title, subtitle, avatarSrc, isAvatarSquare = false, headerGradient, contentGradient, children,
 }: Props) => {
+  const getTitleFontSize = (): string | undefined => {
+    if (title.length < 15) {
+      return undefined
+    }
+
+    if (title.length < 20) {
+      return '80px'
+    }
+
+    if (title.length < 25) {
+      return '70px'
+    }
+
+    return '60px'
+  }
+
   return (
     <Box className={styles.page}>
       <Box
@@ -40,15 +56,20 @@ const GradientPage = ({
             base: '192px',
             lg: '232px',
           }}
-          boxShadow={'lg'}
-          icon={<MdPersonOutline size={'6em'} />}
+          boxShadow={'2xl'}
+          icon={isAvatarSquare ? <MdLibraryMusic size={'6em'} /> : <MdPersonOutline size={'6em'} />}
           style={isAvatarSquare ? { borderRadius: 0 } : {}}
         />
         <Box className={styles.headerContent}>
           <Text className={styles.subtitle}>
             {subtitle}
           </Text>
-          <Text className={styles.title}>
+          <Text
+            className={styles.title}
+            sx={{
+              fontSize: getTitleFontSize(),
+            }}
+          >
             {title}
           </Text>
         </Box>

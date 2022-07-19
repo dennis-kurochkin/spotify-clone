@@ -10,14 +10,6 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Sbotify - Profile</title>
-        <meta
-          name={'description'}
-          content={'Sbotify - the official Spotify clone'}
-        />
-        <link
-          rel={'icon'}
-          href={'/favicon.ico'}
-        />
       </Head>
       <GradientPage
         title={!!user && !isLoading ? user.name : 'Loading...'}

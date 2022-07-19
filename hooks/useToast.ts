@@ -6,7 +6,7 @@ export const useToast = () => {
   return (options: UseToastOptions) => {
     toast({
       ...options,
-      position: 'top-right',
+      position: 'top',
     })
   }
 }
