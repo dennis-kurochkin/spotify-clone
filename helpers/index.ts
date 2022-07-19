@@ -1,4 +1,4 @@
-import { ApiError } from '../types'
+import { ApiError } from '~/types'
 
 export const isApiError = (error: unknown): error is ApiError => {
   return !!(error && typeof error === 'object' && 'message' in error)

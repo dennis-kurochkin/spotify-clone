@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import GradientPage from '../../components/GradientPage'
-import { useApiPlaylist } from '../../hooks/useApi'
+import GradientPage from '~/components/GradientPage'
+import { useApiPlaylist } from '~/hooks/useApi'
 
 const Home: NextPage = () => {
   const router = useRouter()

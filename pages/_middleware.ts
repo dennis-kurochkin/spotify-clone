@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { AUTH_JWT_COOKIE_NAME } from '../constants/auth'
+import { AUTH_JWT_COOKIE_NAME } from '~/constants/auth'
 
 const pagesPathnamesToProtect: string[] = [
   '/',
