@@ -2,7 +2,7 @@ import { Box, Divider, LinkBox, LinkOverlay, List, ListIcon, ListItem, Stack } f
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { MdAdd, MdFavorite, MdHomeFilled, MdOutlineLibraryMusic, MdSearch } from 'react-icons/md'
-import classNames from 'classnames'
+import cx from 'classnames'
 import { useRouter } from 'next/router'
 import { IconType } from 'react-icons'
 import { Skeleton } from '@chakra-ui/react'
@@ -35,27 +35,27 @@ const navigationMenuData: NavigationMenuItem[] = [
 ]
 
 const Sidebar = () => {
-  const { pathname } = useRouter()
+  const { pathname, asPath } = useRouter()
   const { playlists, isLoading: isPlaylistsLoading } = useApiPlaylists()
 
   return (
     <Box className={styles.sidebar}>
       <Box className={styles.logo}>
         <NextLink
-          href="/"
+          href={'/'}
           passHref
         >
           <LinkOverlay>
             <Image
               src={logo}
-              width="178px"
-              height="46px"
+              width={'178px'}
+              height={'46px'}
             />
           </LinkOverlay>
         </NextLink>
       </Box>
       <nav>
-        <List marginBottom="24px">
+        <List marginBottom={'24px'}>
           {navigationMenuData.map(({ title, route, icon }) => (
             <ListItem key={title}>
               <LinkBox>
@@ -64,12 +64,12 @@ const Sidebar = () => {
                   passHref
                 >
                   <LinkOverlay
-                    className={classNames(styles.menuLink, pathname === route && styles.menuLinkCurrent)}
+                    className={cx(styles.menuLink, pathname === route && styles.menuLinkCurrent)}
                   >
                     <ListIcon
                       as={icon}
-                      fontSize="24px"
-                      marginRight="16px"
+                      fontSize={'24px'}
+                      marginRight={'16px'}
                     />
                     {title}
                   </LinkOverlay>
@@ -83,16 +83,16 @@ const Sidebar = () => {
         <ListItem>
           <LinkBox>
             <NextLink
-              href="/playlists/create"
+              href={'/playlist/create'}
               passHref
             >
               <LinkOverlay
-                className={classNames(styles.menuLink, pathname === '/playlists/create' && styles.menuLinkCurrent)}
+                className={cx(styles.menuLink, pathname === '/playlist/create' && styles.menuLinkCurrent)}
               >
-                <Box className={classNames(styles.iconWrapper, styles.iconWrapperCreate)}>
+                <Box className={cx(styles.iconWrapper, styles.iconWrapperCreate)}>
                   <ListIcon
                     as={MdAdd}
-                    fontSize="16px"
+                    fontSize={'16px'}
                   />
                 </Box>
                 Create Playlist
@@ -103,16 +103,16 @@ const Sidebar = () => {
         <ListItem>
           <LinkBox>
             <NextLink
-              href="/collection/tracks"
+              href={'/collection/tracks'}
               passHref
             >
               <LinkOverlay
-                className={classNames(styles.menuLink, pathname === '/collection/tracks' && styles.menuLinkCurrent)}
+                className={cx(styles.menuLink, pathname === '/collection/tracks' && styles.menuLinkCurrent)}
               >
-                <Box className={classNames(styles.iconWrapper, styles.iconWrapperLiked)}>
+                <Box className={cx(styles.iconWrapper, styles.iconWrapperLiked)}>
                   <ListIcon
                     as={MdFavorite}
-                    fontSize="14px"
+                    fontSize={'14px'}
                   />
                 </Box>
                 Liked Songs
@@ -121,16 +121,21 @@ const Sidebar = () => {
           </LinkBox>
         </ListItem>
       </List>
-      <Divider marginTop="12px" />
+      <Divider marginTop={'12px'} />
       <List className={styles.playlistsList}>
         {playlists.map((playlist, index) => (
           <ListItem key={`${playlist.id}-${index}`}>
             <LinkBox>
               <NextLink
-                href={`/playlists/${playlist.id}`}
+                href={`/playlist/${playlist.id}`}
                 passHref
               >
-                <LinkOverlay className={styles.playlistsLink}>
+                <LinkOverlay
+                  className={cx(
+                    styles.playlistsLink,
+                    asPath === `/playlist/${playlist.id}` && styles.playlistsLinkCurrent
+                  )}
+                >
                   {playlist.name}
                 </LinkOverlay>
               </NextLink>
@@ -142,9 +147,9 @@ const Sidebar = () => {
             {new Array(3).fill(null).map((_, index) => (
               <Skeleton
                 key={index}
-                height="20px"
-                startColor="gray.700"
-                endColor="gray.800"
+                height={'20px'}
+                startColor={'gray.700'}
+                endColor={'gray.800'}
               />
             ))}
           </Stack>

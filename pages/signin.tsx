@@ -6,16 +6,8 @@ const SignIn = () => {
     <>
       <Head>
         <title>Sbotify - Sign In</title>
-        <meta
-          name="description"
-          content="Sbotify - the official Spotify clone"
-        />
-        <link
-          rel="icon"
-          href="/favicon.ico"
-        />
       </Head>
-      <AuthForm mode="signin" />
+      <AuthForm mode={'signin'} />
     </>
   )
 }

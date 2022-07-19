@@ -64,6 +64,7 @@
     opacity: .7;
 }
 
-.playlistsLink:hover {
+.playlistsLink:hover,
+.playlistsLinkCurrent {
     opacity: 1;
 }

@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app'
 import 'reset-css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { FC } from 'react'
+import Head from 'next/head'
 import PlayerLayout from '../components/PlayerLayout'
 import '../styles/index.css'
 
@@ -56,15 +57,27 @@ interface CustomAppProps extends AppProps {
 
 const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
   return (
-    <ChakraProvider theme={theme}>
-      {Component.disableLayout ? (
-        <Component {...pageProps} />
-      ) : (
-        <PlayerLayout>
+    <>
+      <Head>
+        <meta
+          name={'description'}
+          content={'Sbotify - the official Spotify clone'}
+        />
+        <link
+          rel={'icon'}
+          href={'/favicon.ico'}
+        />
+      </Head>
+      <ChakraProvider theme={theme}>
+        {Component.disableLayout ? (
           <Component {...pageProps} />
-        </PlayerLayout>
-      )}
-    </ChakraProvider>
+        ) : (
+          <PlayerLayout>
+            <Component {...pageProps} />
+          </PlayerLayout>
+        )}
+      </ChakraProvider>
+    </>
   )
 }
 

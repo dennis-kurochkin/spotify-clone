@@ -26,3 +26,13 @@ export const useApiPlaylists = (): SWRHookReturnValue & { playlists: Playlist[] 
     isLoading: !data && !error,
   }
 }
+
+export const useApiPlaylist = (id: number): SWRHookReturnValue& { playlist?: Playlist } => {
+  const { data, error } = useSWR<Playlist>(`/playlist/${id}`, fetcherSWR)
+
+  return {
+    playlist: data,
+    isError: error,
+    isLoading: !data && !error,
+  }
+}

@@ -34,6 +34,7 @@ export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData |
       data: {
         email,
         password: bcrypt.hashSync(password, salt),
+        name: 'No name',
       },
     })
 

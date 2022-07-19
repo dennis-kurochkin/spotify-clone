@@ -18,7 +18,7 @@ const ProfileBadgeMenuItem = ({ children, href }: Props) => {
         <MenuItem
           as={Box}
           sx={{
-            paddingY: '8px',
+            paddingY: '10px',
             color: 'var(--colors-white)',
             fontSize: 'var(--font-size-400)',
             borderRadius: '4px',

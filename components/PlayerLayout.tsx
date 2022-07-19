@@ -30,7 +30,6 @@ const PlayerLayout = ({ children }: { children: ReactNode }) => {
         }}
       >
         <ProfileBadge
-          name="John Doe"
           avatarURL="https://bit.ly/sage-adebayo"
         />
         {children}
