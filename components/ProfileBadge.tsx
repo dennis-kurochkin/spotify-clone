@@ -2,9 +2,9 @@ import { Avatar, Menu, MenuButton, MenuList, Skeleton } from '@chakra-ui/react'
 import { Box, Text } from '@chakra-ui/layout'
 import { MdArrowDropDown, MdPersonOutline } from 'react-icons/md'
 import classNames from 'classnames'
+import { useApiMe } from '~/hooks/useApi'
 import styles from './ProfileBadge.module.css'
 import ProfileBadgeMenuItem from './ProfileBadgeMenuItem'
-import { useApiMe } from '../hooks/useApi'
 
 interface Props {
   avatarURL?: string

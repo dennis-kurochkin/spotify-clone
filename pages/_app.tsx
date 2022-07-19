@@ -3,7 +3,7 @@ import 'reset-css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { FC } from 'react'
 import Head from 'next/head'
-import PlayerLayout from '../components/PlayerLayout'
+import PlayerLayout from '~/components/PlayerLayout'
 import '../styles/index.css'
 
 const theme = extendTheme({

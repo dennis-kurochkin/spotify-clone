@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { Playlist, User } from '@prisma/client'
-import fetcherSWR from '../lib/fetcher'
+import fetcherSWR from '~/lib/fetcher'
 
 type SWRHookReturnValue = {
   isError?: unknown

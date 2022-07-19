@@ -4,11 +4,11 @@ import React, { ChangeEvent, FC, useState } from 'react'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
-import { authenticate, AuthenticateMode } from '../lib/mutations'
+import { authenticate, AuthenticateMode } from '~/lib/mutations'
+import { useToast } from '~/hooks/useToast'
+import { getApiErrorMessage, logError } from '~/helpers'
 import logo from '../public/logo.svg'
 import styles from './AuthForm.module.css'
-import { getApiErrorMessage, logError } from '../helpers'
-import { useToast } from '../hooks/useToast'
 
 interface Props {
   mode: AuthenticateMode
@@ -65,14 +65,14 @@ const AuthForm: FC<Props> = ({ mode }) => {
     <Box className={styles.wrapper}>
       <Box className={styles.logoWrapper}>
         <NextLink
-          href="/"
+          href={'/'}
           passHref
         >
           <Link className={styles.logoLink}>
             <Image
               src={logo}
-              width="245px"
-              height="64px"
+              width={'245px'}
+              height={'64px'}
             />
           </Link>
         </NextLink>
@@ -90,19 +90,19 @@ const AuthForm: FC<Props> = ({ mode }) => {
             <FormControl isInvalid={!email && isFormSubmitted}>
               <FormLabel
                 className={styles.inputLabel}
-                htmlFor="email"
+                htmlFor={'email'}
               >
                 Email address:
               </FormLabel>
               <Input
                 value={email}
                 disabled={isLoading}
-                id="email"
-                placeholder="Email address"
-                type="email"
-                size="lg"
-                borderColor="gray.500"
-                errorBorderColor="red.300"
+                id={'email'}
+                placeholder={'Email address'}
+                type={'email'}
+                size={'lg'}
+                borderColor={'gray.500'}
+                errorBorderColor={'red.300'}
                 _placeholder={{ fontSize: 'md' }}
                 onChange={({ target }: ChangeEvent<HTMLInputElement>) => setEmail(target.value)}
               />
@@ -110,7 +110,7 @@ const AuthForm: FC<Props> = ({ mode }) => {
             <FormControl isInvalid={!password && isFormSubmitted}>
               <FormLabel
                 className={styles.inputLabel}
-                htmlFor="password"
+                htmlFor={'password'}
               >
                 Password:
               </FormLabel>
@@ -118,12 +118,12 @@ const AuthForm: FC<Props> = ({ mode }) => {
                 value={password}
                 isInvalid={!password && isFormSubmitted}
                 disabled={isLoading}
-                id="password"
-                placeholder="Password"
-                type="password"
-                size="lg"
-                borderColor="gray.500"
-                errorBorderColor="red.300"
+                id={'password'}
+                placeholder={'Password'}
+                type={'password'}
+                size={'lg'}
+                borderColor={'gray.500'}
+                errorBorderColor={'red.300'}
                 _placeholder={{ fontSize: 'md' }}
                 onChange={({ target }: ChangeEvent<HTMLInputElement>) => setPassword(target.value)}
               />
@@ -131,11 +131,11 @@ const AuthForm: FC<Props> = ({ mode }) => {
           </Box>
           <Box className={styles.submitButtonContainer}>
             <Button
-              type="submit"
-              size="lg"
-              colorScheme="green"
-              color="black"
-              width="100%"
+              type={'submit'}
+              size={'lg'}
+              colorScheme={'green'}
+              color={'black'}
+              width={'100%'}
               isLoading={isLoading}
             >
               {mode === 'signin' ? 'Sign In' : 'Sign Up'}
@@ -143,7 +143,7 @@ const AuthForm: FC<Props> = ({ mode }) => {
           </Box>
           <Divider
             sx={{ color: 'var(--colors-gray-400)' }}
-            marginY="32px"
+            marginY={'32px'}
           />
           <Text className={styles.altText}>
             {mode === 'signin' ? 'Don\'t have an account?' : 'Already have an account?'}
@@ -153,12 +153,12 @@ const AuthForm: FC<Props> = ({ mode }) => {
             passHref
           >
             <Button
-              as="a"
-              type="button"
-              variant="outline"
-              size="lg"
-              colorScheme="black"
-              width="100%"
+              as={'a'}
+              type={'button'}
+              variant={'outline'}
+              size={'lg'}
+              colorScheme={'black'}
+              width={'100%'}
             >
               {mode === 'signin' ? 'Sign Up' : 'Sign In'}
               {' '}

@@ -1,4 +1,4 @@
-import { UserCredentials } from '../types/auth'
+import { UserCredentials } from '~/types/auth'
 import { fetcher } from './fetcher'
 
 export type AuthenticateMode = 'signin' | 'signup'

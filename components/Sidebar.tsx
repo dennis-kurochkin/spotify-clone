@@ -6,9 +6,9 @@ import cx from 'classnames'
 import { useRouter } from 'next/router'
 import { IconType } from 'react-icons'
 import { Skeleton } from '@chakra-ui/react'
-import logo from '../public/logo.svg'
+import { useApiPlaylists } from '~/hooks/useApi'
+import logo from '~/public/logo.svg'
 import styles from './Sidebar.module.css'
-import { useApiPlaylists } from '../hooks/useApi'
 
 interface NavigationMenuItem {
   title: string
