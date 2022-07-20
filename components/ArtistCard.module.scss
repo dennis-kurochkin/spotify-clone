@@ -1,0 +1,18 @@
+.card {
+  width: 190px;
+  padding: 16px 16px 24px;
+  border-radius: 6px;
+  background: var(--colors-background-400);
+}
+
+.name {
+  margin: 12px 0 2px;
+  font-size: var(--font-size-400);
+  font-weight: 700;
+  color: var(--colors-white);
+}
+
+.caption {
+  font-size: var(--font-size-300);
+  color: var(--colors-gray-400);
+}
