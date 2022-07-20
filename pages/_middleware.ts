@@ -5,6 +5,7 @@ const pagesPathnamesToProtect: string[] = [
   '/',
   '/playlist',
   '/library',
+  '/profile',
 ]
 
 export default function middleware(req: NextRequest) {
