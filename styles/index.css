@@ -6,10 +6,11 @@
     --colors-white: #ffffff;
     --colors-black: #000000;
     --colors-gray-400: #b3b3b3;
-    --font-size-300: 13px;
+    --font-size-300: 12px;
     --font-size-400: 14px;
     --font-size-500: 16px;
     --font-size-600: 20px;
-    --font-size-900: 96px;
+    --font-size-700: 24px;
+    --font-size-900: 90px;
     --transition: .3s all;
 }

@@ -15,7 +15,7 @@ const PlayerLayout = ({ children }: { children: ReactNode }) => {
       }}
     >
       <Box
-        as="aside"
+        as={'aside'}
         sx={{
           overflow: 'hidden',
         }}
@@ -23,24 +23,21 @@ const PlayerLayout = ({ children }: { children: ReactNode }) => {
         <Sidebar />
       </Box>
       <Box
-        as="main"
+        as={'main'}
         sx={{
           overflow: 'auto',
           backgroundColor: 'var(--colors-background-400)',
         }}
       >
-        <ProfileBadge
-          avatarURL="https://bit.ly/sage-adebayo"
-        />
+        <ProfileBadge />
         {children}
       </Box>
       <Box
-        as="footer"
         sx={{
           gridColumn: '1 / span 2',
         }}
       >
-        footer
+        player
       </Box>
     </Box>
   )
