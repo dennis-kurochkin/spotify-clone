@@ -13,6 +13,7 @@ interface BackgroundGradient {
 interface Props {
   title: string
   subtitle: string
+  description: string
   avatarSrc?: string
   isAvatarSquare?: boolean
   headerGradient: BackgroundGradient
@@ -21,7 +22,14 @@ interface Props {
 }
 
 const GradientPage = ({
-  title, subtitle, avatarSrc, isAvatarSquare = false, headerGradient, contentGradient, children,
+  title,
+  subtitle,
+  description,
+  avatarSrc,
+  isAvatarSquare = false,
+  headerGradient,
+  contentGradient,
+  children,
 }: Props) => {
   const getTitleFontSize = (): string | undefined => {
     if (title.length < 15) {
@@ -58,7 +66,7 @@ const GradientPage = ({
           }}
           boxShadow={'2xl'}
           icon={isAvatarSquare ? <MdLibraryMusic size={'6em'} /> : <MdPersonOutline size={'6em'} />}
-          style={isAvatarSquare ? { borderRadius: 0 } : {}}
+          borderRadius={isAvatarSquare ? 0 : undefined}
         />
         <Box className={styles.headerContent}>
           <Text className={styles.subtitle}>
@@ -72,12 +80,17 @@ const GradientPage = ({
           >
             {title}
           </Text>
+          <Text
+            className={styles.description}
+          >
+            {description}
+          </Text>
         </Box>
       </Box>
       <Box
         as={'section'}
         className={styles.content}
-        background={`linear-gradient(${contentGradient.start} 0%, var(--colors-background-700) 50%)`}
+        background={`linear-gradient(${contentGradient.start} 0%, var(--colors-background-700) 250px)`}
       >
         {children}
       </Box>

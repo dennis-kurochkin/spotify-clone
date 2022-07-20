@@ -1,24 +1,23 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import GradientPage from '~/components/GradientPage'
-import { useApiPlaylist } from '~/hooks/useApi'
+import { prismaClient } from '~/lib/prisma'
+import { Playlist } from '@prisma/client'
 
-const Home: NextPage = () => {
-  const router = useRouter()
-  const { playlist, isLoading } = useApiPlaylist(+(router.query.id ?? ''))
-
+const PlaylistPage = ({ playlist }: { playlist: Playlist }) => {
   return (
     <>
       <Head>
         <title>
-          Sbotify -&nbsp;
-          {isLoading ? 'Loading...' : playlist?.name}
+          Sbotify -
+          {' '}
+          {playlist.name}
         </title>
       </Head>
       <GradientPage
-        title={isLoading ? 'Loading...' : (playlist?.name ?? '')}
+        title={playlist.name}
         subtitle={'Playlist'}
+        description={playlist.description}
         headerGradient={{
           start: '#B7351B',
           end: '#3E140E',
@@ -26,6 +25,7 @@ const Home: NextPage = () => {
         contentGradient={{
           start: '#48140B',
         }}
+        avatarSrc={playlist.avatar}
         isAvatarSquare
       >
         Content
@@ -34,4 +34,18 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const playlist = await prismaClient.playlist.findUnique({
+    where: {
+      id: +(query.id ?? ''),
+    },
+  })
+
+  return {
+    props: {
+      playlist,
+    },
+  }
+}
+
+export default PlaylistPage

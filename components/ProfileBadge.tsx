@@ -6,11 +6,7 @@ import { useApiMe } from '~/hooks/useApi'
 import styles from './ProfileBadge.module.css'
 import ProfileBadgeMenuItem from './ProfileBadgeMenuItem'
 
-interface Props {
-  avatarURL?: string
-}
-
-const ProfileBadge = ({ avatarURL }: Props) => {
+const ProfileBadge = () => {
   const { user, isLoading } = useApiMe()
 
   return (
@@ -22,7 +18,7 @@ const ProfileBadge = ({ avatarURL }: Props) => {
           >
             <Box className={styles.badge}>
               <Avatar
-                src={avatarURL}
+                src={user?.avatar}
                 icon={<MdPersonOutline size={'24px'} />}
                 sx={{
                   width: '28px',
