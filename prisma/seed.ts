@@ -13,6 +13,7 @@ const run = async () => {
       update: {},
       create: {
         name: artist.name,
+        avatar: 'http://placekitten.com/g/600/600',
         songs: {
           create: artist.songs.map((song) => ({
             name: song.name,
@@ -32,6 +33,7 @@ const run = async () => {
       email: 'user@test.com',
       password: bcrypt.hashSync('password', salt),
       name: 'Dennis',
+      avatar: 'http://placekitten.com/g/400/400',
     },
   })
 
@@ -40,6 +42,8 @@ const run = async () => {
     return prisma.playlist.create({
       data: {
         name: `Playlist #${index + 1}`,
+        avatar: 'http://placekitten.com/g/500/500',
+        description: 'Playlist description',
         user: {
           connect: {
             id: user.id,
