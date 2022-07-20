@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app'
 import 'reset-css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Head from 'next/head'
 import PlayerLayout from '~/components/PlayerLayout'
 import '../styles/index.css'
+import { useRouter } from 'next/router'
 
 const theme = extendTheme({
   colors: {
@@ -56,6 +57,24 @@ interface CustomAppProps extends AppProps {
 }
 
 const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
+  const [isLoading, setLoading] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const start = () => setLoading(true)
+    const end = () => setLoading(false)
+
+    router.events.on('routeChangeStart', start)
+    router.events.on('routeChangeComplete', end)
+    router.events.on('routeChangeError', end)
+
+    return () => {
+      router.events.off('routeChangeStart', start)
+      router.events.off('routeChangeComplete', end)
+      router.events.off('routeChangeError', end)
+    }
+  }, [router.events])
+
   return (
     <>
       <Head>
@@ -73,7 +92,7 @@ const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         ) : (
           <PlayerLayout>
-            <Component {...pageProps} />
+            {isLoading ? null : <Component {...pageProps} />}
           </PlayerLayout>
         )}
       </ChakraProvider>
