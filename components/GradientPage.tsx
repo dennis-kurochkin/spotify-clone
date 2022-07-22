@@ -14,6 +14,7 @@ interface Props {
   title: string
   subtitle: string
   description: string
+  stats?: string[]
   avatarSrc?: string
   isAvatarSquare?: boolean
   headerGradient: BackgroundGradient
@@ -25,6 +26,7 @@ const GradientPage = ({
   title,
   subtitle,
   description,
+  stats,
   avatarSrc,
   isAvatarSquare = false,
   headerGradient,
@@ -85,6 +87,15 @@ const GradientPage = ({
           >
             {description}
           </Text>
+          {!!stats && (
+            <Text
+              className={styles.stats}
+            >
+              {stats.map((stat, index) => (
+                `${index ? ' • ' : ''}${stat}`
+              ))}
+            </Text>
+          )}
         </Box>
       </Box>
       <Box
