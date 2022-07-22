@@ -25,6 +25,7 @@
     "classnames": "^2.3.1",
     "cookie": "^0.5.0",
     "cookies": "^0.8.0",
+    "date-fns": "^2.29.1",
     "easy-peasy": "^5.0.4",
     "format-duration": "^2.0.0",
     "framer-motion": "^6.3.15",

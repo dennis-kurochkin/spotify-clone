@@ -78,6 +78,7 @@ const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
+        <title>Sbotify - Loading...</title>
         <meta
           name={'description'}
           content={'Sbotify - the official Spotify clone'}

@@ -1,0 +1,22 @@
+.tableHead {
+  --chakra-space-1: 8px;
+  --chakra-fontWeights-bold: 400;
+
+  color: var(--colors-gray-400);
+  font-weight: 400;
+}
+
+.row {
+  border-radius: 4px;
+  color: var(--colors-white);
+
+  &:hover {
+    color: var(--colors-white);
+    background-color: var(--colors-background-300);
+  }
+
+  td {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}

@@ -34,6 +34,13 @@
 .description {
   margin-top: 4px;
   font-size: var(--font-size-400);
+  color: var(--colors-gray-400);
+}
+
+.stats {
+  margin-top: -4px;
+  font-size: var(--font-size-400);
+  font-weight: 600;
 }
 
 .content {

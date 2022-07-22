@@ -63,3 +63,7 @@ export const validateRoute = (handler: (req: NextApiRequest, res: NextApiRespons
     })
   }
 }
+
+export const validateToken = (token: string): User => {
+  return jwt.verify(token, process.env.JWT_SECRET) as User
+}
