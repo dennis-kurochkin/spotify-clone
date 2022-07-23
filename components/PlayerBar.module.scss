@@ -1,0 +1,31 @@
+.player {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  height: 100%;
+  padding: 16px;
+  background-color: var(--colors-background-400);
+  border-top: 1px solid var(--colors-background-300);
+}
+
+.songInfoContainer {
+  display: grid;
+}
+
+.songName {
+  font-size: var(--font-size-400);
+  color: var(--colors-white);
+  line-height: 1;
+}
+
+.artistName {
+  font-size: var(--font-size-300);
+  color: var(--colors-gray-400);
+}
+
+.actionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
