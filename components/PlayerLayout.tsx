@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/layout'
 import type { ReactNode } from 'react'
+import PlayerBar from '~/components/PlayerBar'
 import Sidebar from './Sidebar'
 import ProfileBadge from './ProfileBadge'
 
@@ -37,7 +38,7 @@ const PlayerLayout = ({ children }: { children: ReactNode }) => {
           gridColumn: '1 / span 2',
         }}
       >
-        player
+        <PlayerBar />
       </Box>
     </Box>
   )

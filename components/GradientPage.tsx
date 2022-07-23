@@ -101,7 +101,7 @@ const GradientPage = ({
       <Box
         as={'section'}
         className={styles.content}
-        background={`linear-gradient(${contentGradient.start} 0%, var(--colors-background-700) 250px)`}
+        background={`linear-gradient(${contentGradient.start} 0%, var(--colors-background-500) 250px)`}
       >
         {children}
       </Box>

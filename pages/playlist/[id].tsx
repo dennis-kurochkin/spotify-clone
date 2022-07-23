@@ -36,7 +36,10 @@ const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
         avatarSrc={playlist.avatar}
         isAvatarSquare
       >
-        <PlayerButton />
+        <PlayerButton
+          size={'lg'}
+          colorScheme={'green'}
+        />
         <Box
           sx={{
             marginTop: '20px',
