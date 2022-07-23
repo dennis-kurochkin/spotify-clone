@@ -33,6 +33,8 @@
       "~/lib/*": ["lib/*"],
       "~/public": ["public"],
       "~/public/*": ["public/*"],
+      "~/store": ["store"],
+      "~/store/*": ["store/*"],
       "~/types": ["types"],
       "~/types/*": ["types/*"]
     }

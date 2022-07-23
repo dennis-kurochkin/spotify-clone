@@ -46,10 +46,17 @@ const SongsTable = ({ songs }: SongsTableProps) => {
           </Tr>
         </Thead>
         <Tbody className={styles.tableBody}>
+          <Tr aria-hidden>
+            <Td
+              colSpan={4}
+              paddingY={'8px'}
+              aria-hidden
+            />
+          </Tr>
           {songs.map((song, index) => (
             <Tr
               key={song.id}
-              className={styles.row}
+              className={styles.songRow}
             >
               <Td>
                 {index + 1}

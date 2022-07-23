@@ -1,18 +1,24 @@
 import { IconButton, IconButtonProps } from '@chakra-ui/react'
 import { IoIosPause, IoIosPlay } from 'react-icons/io'
-import { useState } from 'react'
+import { useAppDispatch, useAppSelector } from '~/hooks/useStore'
+import { playerSlice } from '~/store/player'
 
 interface PlayerButtonProps {
   colorScheme: 'green' | 'white'
   size: IconButtonProps['size']
+  onPlay?: () => void
 }
 
-const PlayerButton = ({ colorScheme, size }: PlayerButtonProps) => {
-  const [isPlaying, setPlaying] = useState(false)
+const PlayerButton = ({ colorScheme, size, onPlay }: PlayerButtonProps) => {
+  const dispatch = useAppDispatch()
+  const activeSong = useAppSelector((state) => state.player.activeSong)
 
-  const handleClick = () => setPlaying(!isPlaying)
-
+  const isPlaying = !!activeSong
   const iconSize: string = size === 'lg' ? '28px' : '24px'
+
+  const handleStop = () => {
+    dispatch(playerSlice.actions.setActiveSong(null))
+  }
 
   return (
     <IconButton
@@ -36,7 +42,7 @@ const PlayerButton = ({ colorScheme, size }: PlayerButtonProps) => {
           transform: 'scale(1)',
         },
       }}
-      onClick={handleClick}
+      onClick={isPlaying || !onPlay ? handleStop : onPlay}
     />
   )
 }

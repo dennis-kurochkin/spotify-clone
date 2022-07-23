@@ -1,15 +1,12 @@
 import type { AppProps } from 'next/app'
 import 'reset-css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import { ComponentType, FC, ReactNode, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import Head from 'next/head'
 import PlayerLayout from '~/components/PlayerLayout'
 import '../styles/index.css'
 import { useRouter } from 'next/router'
-import { StoreProvider } from 'easy-peasy'
-import { store } from '~/lib/store'
-
-const StoreProviderCasted = StoreProvider as ComponentType<StoreProvider['props'] & { children: ReactNode }>
+import { reduxWrapper } from '~/store'
 
 const theme = extendTheme({
   colors: {
@@ -93,18 +90,16 @@ const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
         />
       </Head>
       <ChakraProvider theme={theme}>
-        <StoreProviderCasted store={store}>
-          {Component.disableLayout ? (
-            <Component {...pageProps} />
-          ) : (
-            <PlayerLayout>
-              {isLoading ? null : <Component {...pageProps} />}
-            </PlayerLayout>
-          )}
-        </StoreProviderCasted>
+        {Component.disableLayout ? (
+          <Component {...pageProps} />
+        ) : (
+          <PlayerLayout>
+            {isLoading ? null : <Component {...pageProps} />}
+          </PlayerLayout>
+        )}
       </ChakraProvider>
     </>
   )
 }
 
-export default MyApp
+export default reduxWrapper.withRedux(MyApp)
