@@ -32,6 +32,7 @@ export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData |
   try {
     const user: User = await prismaClient.user.create({
       data: {
+        avatar: 'http://placekitten.com/g/600/600',
         email,
         password: bcrypt.hashSync(password, salt),
         name: 'No name',
