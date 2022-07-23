@@ -2,8 +2,8 @@ import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import GradientPage from '~/components/GradientPage'
 import { prismaClient } from '~/lib/prisma'
-import { Playlist, Song } from '@prisma/client'
-import { validateToken } from '~/helpers/auth'
+import { Playlist, Song, User } from '@prisma/client'
+import { serverSideSignInRedirect, validateToken } from '~/helpers/auth'
 import { AUTH_JWT_COOKIE_NAME } from '~/constants/auth'
 import PlayerButton from '~/components/PlayerButton'
 import { Box } from '@chakra-ui/layout'
@@ -50,11 +50,18 @@ const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
-  const { id: userId } = validateToken(req.cookies[AUTH_JWT_COOKIE_NAME])
+  let user: User
+
+  try {
+    user = validateToken(req.cookies[AUTH_JWT_COOKIE_NAME])
+  } catch (error) {
+    return serverSideSignInRedirect()
+  }
+
   const playlist = await prismaClient.playlist.findFirst({
     where: {
       id: +(query.id ?? ''),
-      userId,
+      userId: user.id,
     },
     include: {
       songs: {
