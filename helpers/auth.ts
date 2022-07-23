@@ -1,7 +1,7 @@
 import { User } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next'
 import { AUTH_JWT_COOKIE_NAME, AUTH_JWT_EXPIRES_IN_HOURS, AUTH_JWT_EXPIRES_IN_SECONDS } from '~/constants/auth'
 import { prismaClient } from '~/lib/prisma'
 import { logError } from './index'
@@ -67,3 +67,10 @@ export const validateRoute = (handler: (req: NextApiRequest, res: NextApiRespons
 export const validateToken = (token: string): User => {
   return jwt.verify(token, process.env.JWT_SECRET) as User
 }
+
+export const serverSideSignInRedirect = (): GetServerSidePropsResult<any> => ({
+  redirect: {
+    permanent: false,
+    destination: '/signin',
+  },
+})
