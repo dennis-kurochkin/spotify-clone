@@ -9,4 +9,16 @@ export const isPrismaConnectionError = (error: unknown): boolean => {
   return false
 }
 
-export const prismaClient = new PrismaClient()
+const createPrismaClient = (): PrismaClient => {
+  if (process.env.NODE_ENV !== 'production') {
+    if (!global.prismaClient) {
+      global.prismaClient = new PrismaClient()
+    }
+
+    return global.prismaClient
+  }
+
+  return new PrismaClient()
+}
+
+export const prismaClient = createPrismaClient()
