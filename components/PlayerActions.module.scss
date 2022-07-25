@@ -1,0 +1,24 @@
+.playerButton {
+  margin: 0 8px;
+}
+
+.actionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 10px;
+  gap: 10px;
+}
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.timeCaption {
+  flex-shrink: 0;
+  font-size: var(--font-size-300);
+  color: var(--colors-gray-400);
+}

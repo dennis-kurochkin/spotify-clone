@@ -10,6 +10,7 @@ import { Box } from '@chakra-ui/layout'
 import SongsTable from '~/components/SongsTable'
 import { useAppDispatch, useAppSelector } from '~/hooks/useStore'
 import { playerSlice } from '~/store/player'
+import { serializeSong } from '../../prisma/types.schema'
 
 interface PlaylistPageProps {
   playlist: Playlist & {songs: (Song & {artist: {id: number, name: string}})[]}
@@ -21,7 +22,7 @@ const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
 
   const handlePlay = () => {
     if (!activeSong && playlist.songs[0]) {
-      dispatch(playerSlice.actions.setActiveSong(playlist.songs[0]))
+      dispatch(playerSlice.actions.setActiveSong(serializeSong(playlist.songs[0])))
     }
   }
 
