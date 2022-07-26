@@ -6,10 +6,11 @@ import { playerSlice } from '~/store/player'
 interface PlayerButtonProps {
   colorScheme: 'green' | 'white'
   size: IconButtonProps['size']
+  className?: string
   onPlay?: () => void
 }
 
-const PlayerButton = ({ colorScheme, size, onPlay }: PlayerButtonProps) => {
+const PlayerButton = ({ colorScheme, size, className = '', onPlay }: PlayerButtonProps) => {
   const dispatch = useAppDispatch()
   const activeSong = useAppSelector((state) => state.player.activeSong)
 
@@ -42,6 +43,7 @@ const PlayerButton = ({ colorScheme, size, onPlay }: PlayerButtonProps) => {
           transform: 'scale(1)',
         },
       }}
+      className={className}
       onClick={isPlaying || !onPlay ? handleStop : onPlay}
     />
   )

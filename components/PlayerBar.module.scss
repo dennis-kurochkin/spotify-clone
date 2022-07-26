@@ -1,6 +1,6 @@
 .player {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 1.4fr 1fr;
   align-items: center;
   height: 100%;
   padding: 16px;
@@ -21,11 +21,4 @@
 .artistName {
   font-size: var(--font-size-300);
   color: var(--colors-gray-400);
-}
-
-.actionsRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
 }

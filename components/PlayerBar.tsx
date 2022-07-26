@@ -1,5 +1,5 @@
 import { Box, Text } from '@chakra-ui/layout'
-import PlayerButton from '~/components/PlayerButton'
+import PlayerActions from '~/components/PlayerActions'
 import styles from './PlayerBar.module.scss'
 
 const PlayerBar = () => {
@@ -11,15 +11,8 @@ const PlayerBar = () => {
           <Text className={styles.artistName}>Artist name</Text>
         </Box>
       </Box>
-      <Box>
-        <Box className={styles.actionsRow}>
-          <PlayerButton
-            size={'sm'}
-            colorScheme={'white'}
-          />
-        </Box>
-      </Box>
-      <div />
+      <PlayerActions />
+      <Box />
     </Box>
   )
 }

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Song } from '@prisma/client'
+import { SongSerialized } from '../../prisma/types.schema'
 
 interface PlayerSliceState {
-  activeSong: Song | null
-  activeSongs: Song[]
+  activeSong: SongSerialized | null
+  activeSongs: SongSerialized[]
 }
 
 const playerSliceInitialState: PlayerSliceState = {
@@ -15,10 +15,10 @@ export const playerSlice = createSlice({
   name: 'player',
   initialState: playerSliceInitialState,
   reducers: {
-    setActiveSong(state, action: PayloadAction<Song | null>) {
+    setActiveSong(state, action: PayloadAction<SongSerialized | null>) {
       state.activeSong = action.payload
     },
-    setActiveSongs(state, action: PayloadAction<Song[]>) {
+    setActiveSongs(state, action: PayloadAction<SongSerialized[]>) {
       state.activeSongs = action.payload
     },
   },
