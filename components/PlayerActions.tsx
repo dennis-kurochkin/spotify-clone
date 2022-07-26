@@ -78,15 +78,40 @@ const PlayerActions = () => {
           1:34
         </Text>
         <RangeSlider
+          role={'group'}
           min={0}
           max={100}
+          step={0.1}
           defaultValue={[0]/* eslint-disable-next-line jsx-a11y/aria-proptypes */}
           aria-label={['Thumb']}
+          sx={{ position: 'relative' }}
+          _before={{
+            content: '""',
+            position: 'absolute',
+            left: '-10px',
+            top: '-14px',
+            width: 'calc(100% + 20px)',
+            height: 'calc(100% + 28px)',
+          }}
         >
-          <RangeSliderTrack>
-            <RangeSliderFilledTrack />
+          <RangeSliderTrack sx={{ background: 'var(--colors-gray-500)' }}>
+            <RangeSliderFilledTrack
+              sx={{ background: 'var(--colors-white)' }}
+              _groupHover={{ background: 'var(--chakra-colors-green-700)' }}
+            />
           </RangeSliderTrack>
-          <RangeSliderThumb index={0} />
+          <RangeSliderThumb
+            index={0}
+            sx={{
+              opacity: '0',
+              width: '12px',
+              height: '12px',
+              _active: {
+                opacity: 1,
+              },
+            }}
+            _groupHover={{ opacity: '1' }}
+          />
         </RangeSlider>
         <Text className={styles.timeCaption}>
           3:40
