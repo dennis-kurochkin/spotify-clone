@@ -1,15 +1,20 @@
 import { Box, Text } from '@chakra-ui/layout'
-import { Song } from '@prisma/client'
 import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import { BiTime } from 'react-icons/bi'
 import { getFormattedSongDate, getFormattedSongDuration } from '~/helpers/song'
+import { SongWithArtist } from '~/types/song'
+import { useAppSelector } from '~/hooks/useStore'
+import cx from 'classnames'
 import styles from './SongsTable.module.scss'
 
 interface SongsTableProps {
-  songs: (Song & { artist: { id: number, name: string } })[]
+  songs: SongWithArtist[]
+  onSongPlay: (song: SongWithArtist) => void
 }
 
-const SongsTable = ({ songs }: SongsTableProps) => {
+const SongsTable = ({ songs, onSongPlay }: SongsTableProps) => {
+  const { isPlaying, activeSong } = useAppSelector((state) => state.player)
+
   return (
     <Box>
       <Table
@@ -56,7 +61,8 @@ const SongsTable = ({ songs }: SongsTableProps) => {
           {songs.map((song, index) => (
             <Tr
               key={song.id}
-              className={styles.songRow}
+              className={cx(styles.songRow, (activeSong?.id === song.id && isPlaying) && styles.songRowActive)}
+              onClick={() => onSongPlay(song)}
             >
               <Td>
                 {index + 1}

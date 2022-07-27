@@ -1,7 +1,7 @@
 import { Box, Text } from '@chakra-ui/layout'
 import styles from '~/components/PlayerActions.module.scss'
 import PlayerButton from '~/components/PlayerButton'
-import { TbArrowsShuffle, TbRepeatOff } from 'react-icons/tb'
+import { TbArrowsShuffle, TbRepeat, TbRepeatOff } from 'react-icons/tb'
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md'
 import { CSSObject,
   IconButton,
@@ -10,9 +10,10 @@ import { CSSObject,
   RangeSliderThumb,
   RangeSliderTrack } from '@chakra-ui/react'
 import ReactHowler from 'react-howler'
-import { useAppSelector } from '~/hooks/useStore'
-import { MutableRefObject, useRef } from 'react'
-import { SongSerialized } from '../prisma/types.schema'
+import { useAppDispatch, useAppSelector } from '~/hooks/useStore'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { playerSlice } from '~/store/player'
+import { getFormattedSongDuration } from '~/helpers/song'
 
 const getActionIconButtonStyles = (isActive?: boolean): CSSObject => ({
   display: 'flex',
@@ -26,25 +27,67 @@ const getActionIconButtonStyles = (isActive?: boolean): CSSObject => ({
 })
 
 const PlayerActions = () => {
+  const dispatch = useAppDispatch()
   const howler: MutableRefObject<ReactHowler | null> = useRef(null)
-  const activeSong: SongSerialized | null = useAppSelector((state) => state.player.activeSong)
+  const { isPlaying, activeSong, activeSongs: songs } = useAppSelector((state) => state.player)
+  const [isRepeating, setRepeating] = useState(false)
+  const [isShuffling, setShuffling] = useState(false)
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    if (activeSong) {
+      setIndex(songs.findIndex((song) => song.id === activeSong.id))
+    }
+  }, [activeSong, songs])
+
+  const handlePlay = (isPlayingValue: boolean) => {
+    dispatch(playerSlice.actions.setPlaying(isPlayingValue))
+  }
+
+  const handlePrev = () => {
+    if (index !== -1) {
+      dispatch(playerSlice.actions.setActiveSong(songs[index - 1] ?? songs[songs.length - 1]))
+    }
+  }
+
+  const handleNext = () => {
+    if (index !== -1) {
+      dispatch(playerSlice.actions.setActiveSong(songs[index + 1] ?? songs[0]))
+    }
+  }
+
+  const handleShuffle = () => {
+    setShuffling((state) => !state)
+  }
+
+  const handleRepeat = () => {
+    setRepeating((state) => !state)
+  }
+
+  const handleHowlerNext = () => {
+    handleNext()
+  }
 
   return (
     <Box>
       {!!activeSong && (
         <ReactHowler
           ref={howler}
-          src={activeSong.url ?? ''}
-          playing={false}
+          src={activeSong?.url ?? ''}
+          playing={isPlaying}
+          volume={0.1}
+          html5
+          onEnd={handleHowlerNext}
         />
       )}
       <Box className={styles.actionsRow}>
         <IconButton
           variant={'unstyled'}
-          sx={getActionIconButtonStyles(true)}
+          sx={getActionIconButtonStyles(isShuffling)}
           fontSize={'20px'}
           aria-label={'Toggle shuffle'}
           icon={<TbArrowsShuffle />}
+          onClick={handleShuffle}
         />
         <IconButton
           variant={'unstyled'}
@@ -52,11 +95,14 @@ const PlayerActions = () => {
           fontSize={'28px'}
           aria-label={'Play previous'}
           icon={<MdSkipPrevious />}
+          onClick={handlePrev}
         />
         <PlayerButton
+          isPlaying={isPlaying}
           size={'sm'}
           colorScheme={'white'}
           className={styles.playerButton}
+          onTogglePlay={handlePlay}
         />
         <IconButton
           variant={'unstyled'}
@@ -64,18 +110,20 @@ const PlayerActions = () => {
           fontSize={'28px'}
           aria-label={'Play next'}
           icon={<MdSkipNext />}
+          onClick={handleNext}
         />
         <IconButton
           variant={'unstyled'}
-          sx={getActionIconButtonStyles()}
+          sx={getActionIconButtonStyles(isRepeating)}
           fontSize={'20px'}
           aria-label={'Toggle repeat'}
-          icon={<TbRepeatOff />}
+          icon={isRepeating ? <TbRepeat /> : <TbRepeatOff />}
+          onClick={handleRepeat}
         />
       </Box>
       <Box className={styles.sliderRow}>
         <Text className={styles.timeCaption}>
-          1:34
+          0:00
         </Text>
         <RangeSlider
           role={'group'}
@@ -114,7 +162,7 @@ const PlayerActions = () => {
           />
         </RangeSlider>
         <Text className={styles.timeCaption}>
-          3:40
+          {activeSong ? getFormattedSongDuration(activeSong.duration) : ''}
         </Text>
       </Box>
     </Box>

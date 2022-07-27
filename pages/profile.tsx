@@ -6,14 +6,18 @@ import { prismaClient } from '~/lib/prisma'
 import ProfileSection from '~/components/ProfileSection'
 import { Box } from '@chakra-ui/layout'
 import ArtistCard from '~/components/ArtistCard'
+import { usePageTitle } from '~/hooks/usePageTitle'
 
 const Profile = ({ artists }: { artists: Artist[] }) => {
   const { user, isLoading } = useApiMe()
+  const pageTitle = usePageTitle('Profile')
 
   return (
     <>
       <Head>
-        <title>Sbotify - Profile</title>
+        <title>
+          {pageTitle}
+        </title>
       </Head>
       <GradientPage
         title={!!user && !isLoading ? user.name : 'Loading...'}

@@ -2,7 +2,7 @@ import type { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import GradientPage from '~/components/GradientPage'
 import { prismaClient } from '~/lib/prisma'
-import { Playlist, Song, User } from '@prisma/client'
+import { Playlist, User } from '@prisma/client'
 import { serverSideSignInRedirect, validateToken } from '~/helpers/auth'
 import { AUTH_JWT_COOKIE_NAME } from '~/constants/auth'
 import PlayerButton from '~/components/PlayerButton'
@@ -10,27 +10,30 @@ import { Box } from '@chakra-ui/layout'
 import SongsTable from '~/components/SongsTable'
 import { useAppDispatch, useAppSelector } from '~/hooks/useStore'
 import { playerSlice } from '~/store/player'
-import { serializeSong } from '../../prisma/types.schema'
+import { SongWithArtist } from '~/types/song'
+import { serializeSongWithArtist } from '~/helpers/song'
+import { usePageTitle } from '~/hooks/usePageTitle'
 
 interface PlaylistPageProps {
-  playlist: Playlist & {songs: (Song & {artist: {id: number, name: string}})[]}
+  playlist: Playlist & { songs: SongWithArtist[] }
 }
 
 const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
   const dispatch = useAppDispatch()
-  const activeSong = useAppSelector((state) => state.player.activeSong)
+  const pageTitle = usePageTitle(playlist.name)
+  const isPlaying = useAppSelector((state) => state.player.isPlaying)
 
-  const handlePlay = () => {
-    if (!activeSong && playlist.songs[0]) {
-      dispatch(playerSlice.actions.setActiveSong(serializeSong(playlist.songs[0])))
-    }
+  const handlePlay = (song?: SongWithArtist) => {
+    dispatch(playerSlice.actions.setPlaying(song ? true : !isPlaying))
+    dispatch(playerSlice.actions.setActiveSong(serializeSongWithArtist(song ?? playlist.songs[0])))
+    dispatch(playerSlice.actions.setActiveSongs(playlist.songs.map(serializeSongWithArtist)))
   }
 
   return (
     <>
       <Head>
         <title>
-          {`Sbotify - ${playlist.name}`}
+          {pageTitle}
         </title>
       </Head>
       <GradientPage
@@ -49,16 +52,20 @@ const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
         isAvatarSquare
       >
         <PlayerButton
+          isPlaying={isPlaying}
           size={'lg'}
           colorScheme={'green'}
-          onPlay={handlePlay}
+          onTogglePlay={() => handlePlay()}
         />
         <Box
           sx={{
             marginTop: '20px',
           }}
         >
-          <SongsTable songs={playlist.songs} />
+          <SongsTable
+            songs={playlist.songs}
+            onSongPlay={handlePlay}
+          />
         </Box>
       </GradientPage>
     </>

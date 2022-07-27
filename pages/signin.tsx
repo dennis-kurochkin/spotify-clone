@@ -1,11 +1,16 @@
 import Head from 'next/head'
 import AuthForm from '~/components/AuthForm'
+import { usePageTitle } from '~/hooks/usePageTitle'
 
 const SignIn = () => {
+  const pageTitle = usePageTitle('Sign In', false)
+
   return (
     <>
       <Head>
-        <title>Sbotify - Sign In</title>
+        <title>
+          {pageTitle}
+        </title>
       </Head>
       <AuthForm mode={'signin'} />
     </>

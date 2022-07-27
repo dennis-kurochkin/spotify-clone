@@ -1,4 +1,5 @@
 import { differenceInDays, format, formatDistance, intervalToDuration } from 'date-fns'
+import { SongWithArtist, SongWithArtistSerialized } from '~/types/song'
 
 export const getFormattedSongDate = (createdAt: Date): string => {
   const today = new Date()
@@ -12,3 +13,9 @@ export const getFormattedSongDuration = (duration: number): string => {
 
   return `${intervalDuration.minutes}:${((intervalDuration.seconds ?? 0) * 10).toString().slice(0, 2)}`
 }
+
+export const serializeSongWithArtist = (song: SongWithArtist): SongWithArtistSerialized => ({
+  ...song,
+  createdAt: song.createdAt.toJSON(),
+  updatedAt: song.updatedAt.toJSON(),
+})
