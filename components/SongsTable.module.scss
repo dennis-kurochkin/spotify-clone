@@ -9,8 +9,10 @@
 .songRow {
   border-radius: 4px;
   color: var(--colors-white);
+  cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.songRowActive {
     color: var(--colors-white);
     background-color: var(--colors-background-300);
   }
