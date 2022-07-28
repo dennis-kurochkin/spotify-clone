@@ -9,9 +9,9 @@ export const getFormattedSongDate = (createdAt: Date): string => {
 }
 
 export const getFormattedSongDuration = (duration: number): string => {
-  const intervalDuration = intervalToDuration({ start: 0, end: duration * 1000 })
+  const { minutes, seconds } = intervalToDuration({ start: 0, end: Math.floor(duration) * 1000 })
 
-  return `${intervalDuration.minutes}:${((intervalDuration.seconds ?? 0) * 10).toString().slice(0, 2)}`
+  return `${minutes}:${(seconds ?? 0) < 10 ? `0${seconds}` : seconds}`
 }
 
 export const serializeSongWithArtist = (song: SongWithArtist): SongWithArtistSerialized => ({

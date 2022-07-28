@@ -28,17 +28,46 @@ const getActionIconButtonStyles = (isActive?: boolean): CSSObject => ({
 
 const PlayerActions = () => {
   const dispatch = useAppDispatch()
-  const howler: MutableRefObject<ReactHowler | null> = useRef(null)
   const { isPlaying, activeSong, activeSongs: songs } = useAppSelector((state) => state.player)
   const [isRepeating, setRepeating] = useState(false)
   const [isShuffling, setShuffling] = useState(false)
+  const [isSeeking, setIsSeeking] = useState(false)
   const [index, setIndex] = useState(0)
+  const [seek, setSeek] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const howlerRef: MutableRefObject<ReactHowler | null> = useRef(null)
+  const isRepeatingRef: MutableRefObject<boolean> = useRef(isRepeating)
 
   useEffect(() => {
     if (activeSong) {
       setIndex(songs.findIndex((song) => song.id === activeSong.id))
+      setSeek(0)
+      setDuration(activeSong.duration)
     }
   }, [activeSong, songs])
+
+  useEffect(() => {
+    let timerId = -1
+
+    if (isPlaying && !isSeeking) {
+      const f = () => {
+        setSeek(howlerRef.current?.seek() ?? 0)
+        timerId = requestAnimationFrame(f)
+      }
+
+      timerId = requestAnimationFrame(f)
+
+      return () => cancelAnimationFrame(timerId)
+    }
+
+    if (timerId !== -1) {
+      cancelAnimationFrame(timerId)
+    }
+  }, [isPlaying, isSeeking])
+
+  useEffect(() => {
+    isRepeatingRef.current = isRepeating
+  }, [isRepeating])
 
   const handlePlay = (isPlayingValue: boolean) => {
     dispatch(playerSlice.actions.setPlaying(isPlayingValue))
@@ -51,7 +80,20 @@ const PlayerActions = () => {
   }
 
   const handleNext = () => {
-    if (index !== -1) {
+    if (index === -1) {
+      return
+    }
+
+    if (isShuffling) {
+      const randomIndex = Math.floor(Math.random() * songs.length)
+
+      if (randomIndex === index) {
+        handleNext()
+        return
+      }
+
+      dispatch(playerSlice.actions.setActiveSong(songs[randomIndex]))
+    } else {
       dispatch(playerSlice.actions.setActiveSong(songs[index + 1] ?? songs[0]))
     }
   }
@@ -64,20 +106,43 @@ const PlayerActions = () => {
     setRepeating((state) => !state)
   }
 
-  const handleHowlerNext = () => {
-    handleNext()
+  const handleSeek = ([seekValue]: number[]) => {
+    setSeek(seekValue)
+  }
+
+  const handleSeekStart = () => {
+    setIsSeeking(true)
+  }
+
+  const handleSeekEnd = () => {
+    howlerRef.current?.seek(seek)
+    setIsSeeking(false)
+  }
+
+  const handleEnd = () => {
+    if (isRepeatingRef.current) {
+      howlerRef.current?.seek(0)
+      setSeek(0)
+    } else {
+      handleNext()
+    }
+  }
+
+  const handleLoad = () => {
+    setDuration(howlerRef.current?.duration() ?? 0)
   }
 
   return (
     <Box>
       {!!activeSong && (
         <ReactHowler
-          ref={howler}
-          src={activeSong?.url ?? ''}
+          ref={howlerRef}
+          src={activeSong.url}
           playing={isPlaying}
           volume={0.1}
           html5
-          onEnd={handleHowlerNext}
+          onEnd={handleEnd}
+          onLoad={handleLoad}
         />
       )}
       <Box className={styles.actionsRow}>
@@ -123,12 +188,14 @@ const PlayerActions = () => {
       </Box>
       <Box className={styles.sliderRow}>
         <Text className={styles.timeCaption}>
-          0:00
+          {activeSong ? getFormattedSongDuration(seek) : ''}
         </Text>
         <RangeSlider
           role={'group'}
+          value={[seek]}
+          isDisabled={!duration}
           min={0}
-          max={100}
+          max={duration || 100}
           step={0.1}
           defaultValue={[0]/* eslint-disable-next-line jsx-a11y/aria-proptypes */}
           aria-label={['Thumb']}
@@ -141,6 +208,9 @@ const PlayerActions = () => {
             width: 'calc(100% + 20px)',
             height: 'calc(100% + 28px)',
           }}
+          onChange={handleSeek}
+          onChangeStart={handleSeekStart}
+          onChangeEnd={handleSeekEnd}
         >
           <RangeSliderTrack sx={{ background: 'var(--colors-gray-500)' }}>
             <RangeSliderFilledTrack
@@ -162,7 +232,7 @@ const PlayerActions = () => {
           />
         </RangeSlider>
         <Text className={styles.timeCaption}>
-          {activeSong ? getFormattedSongDuration(activeSong.duration) : ''}
+          {activeSong ? getFormattedSongDuration(duration) : ''}
         </Text>
       </Box>
     </Box>
