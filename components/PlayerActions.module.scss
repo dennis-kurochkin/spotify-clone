@@ -11,7 +11,8 @@
 }
 
 .sliderRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
   align-items: center;
   justify-content: center;
   gap: 12px;
