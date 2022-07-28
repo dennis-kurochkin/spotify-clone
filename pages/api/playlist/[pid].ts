@@ -5,7 +5,7 @@ export default validateRoute(async (req, res) => {
   const { pid } = req.query
   const playlists = await prismaClient.playlist.findUnique({
     where: {
-      id: +pid,
+      id: +(pid ?? '-1'),
     },
   })
 

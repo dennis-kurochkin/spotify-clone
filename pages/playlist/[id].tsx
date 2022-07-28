@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   let user: User
 
   try {
-    user = validateToken(req.cookies[AUTH_JWT_COOKIE_NAME])
+    user = validateToken(req.cookies[AUTH_JWT_COOKIE_NAME] ?? '')
   } catch (error) {
     return serverSideSignInRedirect()
   }

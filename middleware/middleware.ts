@@ -10,7 +10,7 @@ const pagesPathnamesToProtect: string[] = [
 
 export default function middleware(req: NextRequest) {
   if (pagesPathnamesToProtect.includes(req.nextUrl.pathname)) {
-    const token = req.cookies[AUTH_JWT_COOKIE_NAME]
+    const token = req.cookies.get(AUTH_JWT_COOKIE_NAME)
 
     if (!token) {
       return NextResponse.redirect(new URL('/signin', req.url))
