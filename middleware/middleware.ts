@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AUTH_JWT_COOKIE_NAME } from '~/constants/auth'
 
-const pagesPathnamesToProtect: string[] = [
+const protectedPathnames: string[] = [
   '/',
   '/playlist',
   '/library',
@@ -9,7 +9,7 @@ const pagesPathnamesToProtect: string[] = [
 ]
 
 export default function middleware(req: NextRequest) {
-  if (pagesPathnamesToProtect.includes(req.nextUrl.pathname)) {
+  if (protectedPathnames.includes(req.nextUrl.pathname)) {
     const token = req.cookies.get(AUTH_JWT_COOKIE_NAME)
 
     if (!token) {

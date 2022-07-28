@@ -36,7 +36,9 @@ const PlayerActions = () => {
   const [seek, setSeek] = useState(0)
   const [duration, setDuration] = useState(0)
   const howlerRef: MutableRefObject<ReactHowler | null> = useRef(null)
-  const isRepeatingRef: MutableRefObject<boolean> = useRef(isRepeating)
+  const isRepeatingRef: MutableRefObject<typeof isRepeating> = useRef(isRepeating)
+  const isShufflingRef: MutableRefObject<typeof isShuffling> = useRef(isShuffling)
+  const indexRef: MutableRefObject<typeof index> = useRef(index)
 
   useEffect(() => {
     if (activeSong) {
@@ -69,6 +71,14 @@ const PlayerActions = () => {
     isRepeatingRef.current = isRepeating
   }, [isRepeating])
 
+  useEffect(() => {
+    isShufflingRef.current = isShuffling
+  }, [isShuffling])
+
+  useEffect(() => {
+    indexRef.current = index
+  }, [index])
+
   const handlePlay = (isPlayingValue: boolean) => {
     dispatch(playerSlice.actions.setPlaying(isPlayingValue))
   }
@@ -80,21 +90,21 @@ const PlayerActions = () => {
   }
 
   const handleNext = () => {
-    if (index === -1) {
+    if (indexRef.current === -1) {
       return
     }
 
-    if (isShuffling) {
+    if (isShufflingRef.current) {
       const randomIndex = Math.floor(Math.random() * songs.length)
 
-      if (randomIndex === index) {
+      if (randomIndex === indexRef.current) {
         handleNext()
         return
       }
 
       dispatch(playerSlice.actions.setActiveSong(songs[randomIndex]))
     } else {
-      dispatch(playerSlice.actions.setActiveSong(songs[index + 1] ?? songs[0]))
+      dispatch(playerSlice.actions.setActiveSong(songs[indexRef.current + 1] ?? songs[0]))
     }
   }
 
