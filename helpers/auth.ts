@@ -30,6 +30,16 @@ export const getAuthJWTCookie = (user: Parameters<typeof getAuthJWT>[0]) => {
   })
 }
 
+export const getAuthJWTCookieCleared = () => {
+  return cookie.serialize(AUTH_JWT_COOKIE_NAME, '', {
+    httpOnly: true,
+    maxAge: -1,
+    path: '/',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  })
+}
+
 export const validateRoute = (handler: (req: NextApiRequest, res: NextApiResponse, user: User) => void) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const token = req.cookies[AUTH_JWT_COOKIE_NAME]

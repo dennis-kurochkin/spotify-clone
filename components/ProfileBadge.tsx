@@ -3,11 +3,22 @@ import { Box, Text } from '@chakra-ui/layout'
 import { MdArrowDropDown, MdPersonOutline } from 'react-icons/md'
 import classNames from 'classnames'
 import { useApiMe } from '~/hooks/useApi'
+import { useRouter } from 'next/router'
+import { useAppDispatch } from '~/hooks/useStore'
+import { logout } from '~/lib/mutations'
 import styles from './ProfileBadge.module.css'
 import ProfileBadgeMenuItem from './ProfileBadgeMenuItem'
 
 const ProfileBadge = () => {
   const { user, isLoading } = useApiMe()
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  const handleLogout = async () => {
+    dispatch({ type: 'RESET' })
+    await logout()
+    await router.push('/signin')
+  }
 
   return (
     <Menu>
@@ -49,10 +60,16 @@ const ProfileBadge = () => {
             padding={'4px'}
             boxShadow={'lg'}
           >
-            <ProfileBadgeMenuItem href={'/profile'}>
+            <ProfileBadgeMenuItem
+              type={'link'}
+              href={'/profile'}
+            >
               Profile
             </ProfileBadgeMenuItem>
-            <ProfileBadgeMenuItem href={'/logout'}>
+            <ProfileBadgeMenuItem
+              type={'button'}
+              onClick={handleLogout}
+            >
               Log out
             </ProfileBadgeMenuItem>
           </MenuList>
