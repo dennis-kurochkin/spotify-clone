@@ -3,21 +3,16 @@ import { Box, Text } from '@chakra-ui/layout'
 import { MdArrowDropDown, MdPersonOutline } from 'react-icons/md'
 import classNames from 'classnames'
 import { useApiMe } from '~/hooks/useApi'
-import { useRouter } from 'next/router'
-import { useAppDispatch } from '~/hooks/useStore'
-import { logout } from '~/lib/mutations'
+import useLogout from '~/hooks/useLogout'
 import styles from './ProfileBadge.module.css'
 import ProfileBadgeMenuItem from './ProfileBadgeMenuItem'
 
 const ProfileBadge = () => {
   const { user, isLoading } = useApiMe()
-  const router = useRouter()
-  const dispatch = useAppDispatch()
+  const logout = useLogout()
 
   const handleLogout = async () => {
-    dispatch({ type: 'RESET' })
     await logout()
-    await router.push('/signin')
   }
 
   return (
