@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Box, Divider, Link, Text } from '@chakra-ui/layout'
+import { Box, Divider, Text } from '@chakra-ui/layout'
 import React, { ChangeEvent, FC, useState } from 'react'
 import Image from 'next/image'
 import NextLink from 'next/link'
@@ -64,18 +64,13 @@ const AuthForm: FC<Props> = ({ mode }) => {
   return (
     <Box className={styles.wrapper}>
       <Box className={styles.logoWrapper}>
-        <NextLink
-          href={'/'}
-          passHref
-        >
-          <Link className={styles.logoLink}>
-            <Image
-              src={logo}
-              width={'245px'}
-              height={'64px'}
-            />
-          </Link>
-        </NextLink>
+        <Box className={styles.logoLink}>
+          <Image
+            src={logo}
+            width={'245px'}
+            height={'64px'}
+          />
+        </Box>
       </Box>
       <Box>
         <Divider sx={{ color: 'var(--colors-gray-400)' }} />

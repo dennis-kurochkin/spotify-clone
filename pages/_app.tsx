@@ -5,8 +5,10 @@ import React, { FC, useEffect, useState } from 'react'
 import Head from 'next/head'
 import PlayerLayout from '~/components/PlayerLayout'
 import '../styles/index.css'
-import { useRouter } from 'next/router'
 import { reduxWrapper } from '~/store'
+import { SWRConfig } from 'swr'
+import useLogout from '~/hooks/useLogout'
+import { useRouter } from 'next/router'
 
 const theme = extendTheme({
   colors: {
@@ -59,7 +61,14 @@ interface CustomAppProps extends AppProps {
 
 const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
   const [isLoading, setLoading] = useState(false)
+  const logout = useLogout()
   const router = useRouter()
+
+  const handleSWRError = async (response: Response) => {
+    if (response.status === 403 || response.status === 401) {
+      await logout()
+    }
+  }
 
   useEffect(() => {
     const start = () => setLoading(true)
@@ -90,13 +99,17 @@ const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
         />
       </Head>
       <ChakraProvider theme={theme}>
-        {Component.disableLayout ? (
-          <Component {...pageProps} />
-        ) : (
-          <PlayerLayout>
-            {isLoading ? null : <Component {...pageProps} />}
-          </PlayerLayout>
-        )}
+        <SWRConfig
+          value={{ onError: handleSWRError }}
+        >
+          {Component.disableLayout ? (
+            <Component {...pageProps} />
+          ) : (
+            <PlayerLayout>
+              {isLoading ? null : <Component {...pageProps} />}
+            </PlayerLayout>
+          )}
+        </SWRConfig>
       </ChakraProvider>
     </>
   )
