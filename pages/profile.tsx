@@ -7,6 +7,9 @@ import ProfileSection from '~/components/ProfileSection'
 import { Box } from '@chakra-ui/layout'
 import ArtistCard from '~/components/ArtistCard'
 import { usePageTitle } from '~/hooks/usePageTitle'
+import { serverSideSignInRedirect, validateToken } from '~/helpers/auth'
+import { AUTH_JWT_COOKIE_NAME } from '~/constants/auth'
+import { GetServerSidePropsContext } from 'next'
 
 const Profile = ({ artists }: { artists: Artist[] }) => {
   const { user, isLoading } = useApiMe()
@@ -56,7 +59,13 @@ const Profile = ({ artists }: { artists: Artist[] }) => {
   )
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ req }: GetServerSidePropsContext) => {
+  try {
+    validateToken(req.cookies[AUTH_JWT_COOKIE_NAME] ?? '')
+  } catch (error) {
+    return serverSideSignInRedirect()
+  }
+
   const artists = await prismaClient.artist.findMany({})
 
   return {
