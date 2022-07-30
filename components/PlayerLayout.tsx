@@ -1,10 +1,16 @@
 import { Box } from '@chakra-ui/layout'
 import type { ReactNode } from 'react'
 import PlayerBar from '~/components/PlayerBar'
+import Footer from '~/components/Footer'
 import Sidebar from './Sidebar'
 import ProfileBadge from './ProfileBadge'
 
-const PlayerLayout = ({ children }: { children: ReactNode }) => {
+interface PlayerLayoutProps {
+  isLoading: boolean
+  children: ReactNode
+}
+
+const PlayerLayout = ({ isLoading, children }: PlayerLayoutProps) => {
   return (
     <Box
       sx={{
@@ -32,6 +38,7 @@ const PlayerLayout = ({ children }: { children: ReactNode }) => {
       >
         <ProfileBadge />
         {children}
+        {!isLoading && <Footer />}
       </Box>
       <Box
         sx={{

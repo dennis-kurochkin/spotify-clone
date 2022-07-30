@@ -1,0 +1,23 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-400);
+  color: var(--colors-gray-400);
+}
+
+.linksColumn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.underlinedLink {
+  text-decoration: underline;
+}

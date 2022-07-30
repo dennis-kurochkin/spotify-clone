@@ -105,7 +105,7 @@ const MyApp: FC<CustomAppProps> = ({ Component, pageProps }) => {
           {Component.disableLayout ? (
             <Component {...pageProps} />
           ) : (
-            <PlayerLayout>
+            <PlayerLayout isLoading={isLoading}>
               {isLoading ? null : <Component {...pageProps} />}
             </PlayerLayout>
           )}
