@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from '~/hooks/useStore'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { playerSlice } from '~/store/player'
 import { getFormattedSongDuration } from '~/helpers/song'
+import { fetcher } from '~/lib/fetcher'
+import { useToast } from '~/hooks/useToast'
 
 const getActionIconButtonStyles = (isActive?: boolean): CSSObject => ({
   display: 'flex',
@@ -35,6 +37,7 @@ const PlayerActions = () => {
   const [index, setIndex] = useState(0)
   const [seek, setSeek] = useState(0)
   const [duration, setDuration] = useState(0)
+  const toast = useToast()
   const howlerRef: MutableRefObject<ReactHowler | null> = useRef(null)
   const isRepeatingRef: MutableRefObject<typeof isRepeating> = useRef(isRepeating)
   const isShufflingRef: MutableRefObject<typeof isShuffling> = useRef(isShuffling)
@@ -79,8 +82,31 @@ const PlayerActions = () => {
     indexRef.current = index
   }, [index])
 
-  const handlePlay = (isPlayingValue: boolean) => {
-    dispatch(playerSlice.actions.setPlaying(isPlayingValue))
+  const handlePlay = async (isPlayingValue: boolean) => {
+    if (activeSong && songs) {
+      dispatch(playerSlice.actions.setPlaying(isPlayingValue))
+    } else if (isPlayingValue) {
+      dispatch(playerSlice.actions.setPlaying(true))
+
+      try {
+        const response = await fetcher('/playlist/song')
+        const playlist = await response.json()
+
+        if (playlist) {
+          dispatch(playerSlice.actions.setActiveSong(playlist.songs[0]))
+          dispatch(playerSlice.actions.setActiveSongs(playlist.songs))
+        } else {
+          toast({
+            title: 'No playlists found',
+            description: 'Please, try playing music from playlist page',
+            status: 'error',
+          })
+          throw new Error()
+        }
+      } catch (error) {
+        dispatch(playerSlice.actions.setPlaying(false))
+      }
+    }
   }
 
   const handlePrev = () => {
