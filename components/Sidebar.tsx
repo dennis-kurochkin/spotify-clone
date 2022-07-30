@@ -25,12 +25,12 @@ const navigationMenuData: NavigationMenuItem[] = [
   {
     title: 'Search',
     icon: MdSearch,
-    route: '/search',
+    route: '#',
   },
   {
     title: 'Your Library',
     icon: MdOutlineLibraryMusic,
-    route: '/collection',
+    route: '#',
   },
 ]
 
@@ -83,7 +83,7 @@ const Sidebar = () => {
         <ListItem>
           <LinkBox>
             <NextLink
-              href={'/playlist/create'}
+              href={'#'}
               passHref
             >
               <LinkOverlay
@@ -103,7 +103,7 @@ const Sidebar = () => {
         <ListItem>
           <LinkBox>
             <NextLink
-              href={'/collection/tracks'}
+              href={'#'}
               passHref
             >
               <LinkOverlay
