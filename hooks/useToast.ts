@@ -7,6 +7,7 @@ export const useToast = () => {
     toast({
       ...options,
       position: 'top',
+      isClosable: true,
     })
   }
 }
