@@ -242,7 +242,7 @@ const PlayerActions = () => {
             left: '-10px',
             top: '-14px',
             width: 'calc(100% + 20px)',
-            height: 'calc(100% + 28px)',
+            height: 'calc(100% + 20px)',
           }}
           onChange={handleSeek}
           onChangeStart={handleSeekStart}
