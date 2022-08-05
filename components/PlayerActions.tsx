@@ -30,7 +30,7 @@ const getActionIconButtonStyles = (isActive?: boolean): CSSObject => ({
 
 const PlayerActions = () => {
   const dispatch = useAppDispatch()
-  const { isPlaying, activeSong, activeSongs: songs } = useAppSelector((state) => state.player)
+  const { isPlaying, volume, activeSong, activeSongs: songs } = useAppSelector((state) => state.player)
   const [isRepeating, setRepeating] = useState(false)
   const [isShuffling, setShuffling] = useState(false)
   const [isSeeking, setIsSeeking] = useState(false)
@@ -175,7 +175,7 @@ const PlayerActions = () => {
           ref={howlerRef}
           src={activeSong.url}
           playing={isPlaying}
-          volume={0.1}
+          volume={volume}
           html5
           onEnd={handleEnd}
           onLoad={handleLoad}
