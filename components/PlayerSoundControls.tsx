@@ -1,8 +1,17 @@
 import { RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/layout'
 import { FiVolume2 } from 'react-icons/fi'
+import { useAppDispatch, useAppSelector } from '~/hooks/useStore'
+import { playerSlice } from '~/store/player'
 
 const PlayerSoundControls = () => {
+  const { volume } = useAppSelector((state) => state.player)
+  const dispatch = useAppDispatch()
+
+  const handleSeek = ([seekValue]: number[]) => {
+    dispatch(playerSlice.actions.setVolume(seekValue))
+  }
+
   return (
     <Box sx={{
       display: 'flex',
@@ -10,13 +19,16 @@ const PlayerSoundControls = () => {
       alignItems: 'center',
     }}
     >
-      <FiVolume2 fontSize={20} />
+      <FiVolume2
+        fontSize={20}
+        color={'var(--colors-gray-400)'}
+      />
       <RangeSlider
         role={'group'}
-        value={[0]}
+        value={[volume]}
         min={0}
-        max={100}
-        step={1}
+        max={1}
+        step={0.01}
         defaultValue={[0]/* eslint-disable-next-line jsx-a11y/aria-proptypes */}
         aria-label={['Thumb']}
         sx={{
@@ -31,6 +43,7 @@ const PlayerSoundControls = () => {
           width: 'calc(100% + 20px)',
           height: 'calc(100% + 20px)',
         }}
+        onChange={handleSeek}
       >
         <RangeSliderTrack sx={{ background: 'var(--colors-gray-500)' }}>
           <RangeSliderFilledTrack
