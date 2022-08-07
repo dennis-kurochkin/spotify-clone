@@ -1,6 +1,7 @@
 import { Box, Text } from '@chakra-ui/layout'
 import PlayerActions from '~/components/PlayerActions'
 import { useAppSelector } from '~/hooks/useStore'
+import PlayerSoundControls from '~/components/PlayerSoundControls'
 import styles from './PlayerBar.module.scss'
 
 const PlayerBar = () => {
@@ -17,7 +18,14 @@ const PlayerBar = () => {
         )}
       </Box>
       <PlayerActions />
-      <Box />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <PlayerSoundControls />
+      </Box>
     </Box>
   )
 }
