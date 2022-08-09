@@ -12,7 +12,8 @@ const rootReducer = (state: any, action: any) => {
       ...state,
       player: {
         activeSong: action.payload.player.activeSong,
-        activeSongs: action.payload.player.activeSongs,
+        playlistId: action.payload.player.playlistSongs,
+        playlistSongs: action.payload.player.playlistSongs,
       },
     }
   }

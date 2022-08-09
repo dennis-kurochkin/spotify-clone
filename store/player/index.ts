@@ -5,14 +5,16 @@ interface PlayerSliceState {
   isPlaying: boolean
   volume: number
   activeSong: SongWithArtistSerialized | null
-  activeSongs: SongWithArtistSerialized[]
+  playlistId: number | null
+  playlistSongs: SongWithArtistSerialized[]
 }
 
 const playerSliceInitialState: PlayerSliceState = {
   isPlaying: false,
   volume: 1,
   activeSong: null,
-  activeSongs: [],
+  playlistId: null,
+  playlistSongs: [],
 
 }
 export const playerSlice = createSlice({
@@ -28,8 +30,9 @@ export const playerSlice = createSlice({
     setActiveSong(state, action: PayloadAction<SongWithArtistSerialized | null>) {
       state.activeSong = action.payload
     },
-    setActiveSongs(state, action: PayloadAction<SongWithArtistSerialized[]>) {
-      state.activeSongs = action.payload
+    setPlaylist(state, action: PayloadAction<{ playlistId: number, playlistSongs: SongWithArtistSerialized[] }>) {
+      state.playlistId = action.payload.playlistId
+      state.playlistSongs = action.payload.playlistSongs
     },
   },
 })

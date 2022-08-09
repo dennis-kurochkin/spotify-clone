@@ -9,11 +9,12 @@ import styles from './SongsTable.module.scss'
 
 interface SongsTableProps {
   songs: SongWithArtist[]
+  isPlayingPlaylistSong: boolean
   onSongPlay: (song: SongWithArtist) => void
 }
 
-const SongsTable = ({ songs, onSongPlay }: SongsTableProps) => {
-  const { isPlaying, activeSong } = useAppSelector((state) => state.player)
+const SongsTable = ({ songs, isPlayingPlaylistSong, onSongPlay }: SongsTableProps) => {
+  const { activeSong } = useAppSelector((state) => state.player)
 
   return (
     <Box>
@@ -61,7 +62,10 @@ const SongsTable = ({ songs, onSongPlay }: SongsTableProps) => {
           {songs.map((song, index) => (
             <Tr
               key={song.id}
-              className={cx(styles.songRow, (activeSong?.id === song.id && isPlaying) && styles.songRowActive)}
+              className={cx(
+                styles.songRow,
+                (activeSong?.id === song.id && isPlayingPlaylistSong) && styles.songRowActive
+              )}
               onClick={() => onSongPlay(song)}
             >
               <Td>

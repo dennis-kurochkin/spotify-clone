@@ -8,6 +8,8 @@ import { IconType } from 'react-icons'
 import { Skeleton } from '@chakra-ui/react'
 import { useApiPlaylists } from '~/hooks/useApi'
 import logo from '~/public/logo.svg'
+import { FiVolume2 } from 'react-icons/fi'
+import { useAppSelector } from '~/hooks/useStore'
 import styles from './Sidebar.module.css'
 
 interface NavigationMenuItem {
@@ -37,6 +39,7 @@ const navigationMenuData: NavigationMenuItem[] = [
 const Sidebar = () => {
   const { pathname, asPath } = useRouter()
   const { playlists, isLoading: isPlaylistsLoading } = useApiPlaylists()
+  const { playlistId, isPlaying } = useAppSelector((state) => state.player)
 
   return (
     <Box className={styles.sidebar}>
@@ -135,8 +138,23 @@ const Sidebar = () => {
                     styles.playlistsLink,
                     asPath === `/playlist/${playlist.id}` && styles.playlistsLinkCurrent
                   )}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
                 >
-                  {playlist.name}
+                  <span>
+                    {playlist.name}
+                  </span>
+                  {isPlaying && playlistId === playlist.id && (
+                    <FiVolume2
+                      style={{
+                        color: 'var(--chakra-colors-green-400)',
+                        marginLeft: 'auto',
+                      }}
+                    />
+                  )}
                 </LinkOverlay>
               </NextLink>
             </LinkBox>
