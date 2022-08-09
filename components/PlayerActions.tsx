@@ -30,7 +30,7 @@ const getActionIconButtonStyles = (isActive?: boolean): CSSObject => ({
 
 const PlayerActions = () => {
   const dispatch = useAppDispatch()
-  const { isPlaying, volume, activeSong, activeSongs: songs } = useAppSelector((state) => state.player)
+  const { isPlaying, volume, activeSong, playlistSongs: songs } = useAppSelector((state) => state.player)
   const [isRepeating, setRepeating] = useState(false)
   const [isShuffling, setShuffling] = useState(false)
   const [isSeeking, setIsSeeking] = useState(false)
@@ -94,7 +94,7 @@ const PlayerActions = () => {
 
         if (playlist) {
           dispatch(playerSlice.actions.setActiveSong(playlist.songs[0]))
-          dispatch(playerSlice.actions.setActiveSongs(playlist.songs))
+          dispatch(playerSlice.actions.setPlaylist(playlist.songs))
         } else {
           toast({
             title: 'No playlists found',

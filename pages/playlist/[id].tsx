@@ -21,12 +21,18 @@ interface PlaylistPageProps {
 const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
   const dispatch = useAppDispatch()
   const pageTitle = usePageTitle(playlist.name)
-  const isPlaying = useAppSelector((state) => state.player.isPlaying)
+  const { isPlaying, playlistId: playingPlaylistId } = useAppSelector((state) => state.player)
+  const isPlayingPlaylistSong = isPlaying && playingPlaylistId === playlist.id
 
   const handlePlay = (song?: SongWithArtist) => {
-    dispatch(playerSlice.actions.setPlaying(song ? true : !isPlaying))
+    const isPlayingValue = !isPlayingPlaylistSong ? true : !isPlaying
+
+    dispatch(playerSlice.actions.setPlaying(song ? true : isPlayingValue))
     dispatch(playerSlice.actions.setActiveSong(serializeSongWithArtist(song ?? playlist.songs[0])))
-    dispatch(playerSlice.actions.setActiveSongs(playlist.songs.map(serializeSongWithArtist)))
+    dispatch(playerSlice.actions.setPlaylist({
+      playlistId: playlist.id,
+      playlistSongs: playlist.songs.map(serializeSongWithArtist),
+    }))
   }
 
   return (
@@ -52,7 +58,7 @@ const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
         isAvatarSquare
       >
         <PlayerButton
-          isPlaying={isPlaying}
+          isPlaying={isPlayingPlaylistSong}
           size={'lg'}
           colorScheme={'green'}
           onTogglePlay={() => handlePlay()}
@@ -64,6 +70,7 @@ const PlaylistPage = ({ playlist }: PlaylistPageProps) => {
         >
           <SongsTable
             songs={playlist.songs}
+            isPlayingPlaylistSong={isPlayingPlaylistSong}
             onSongPlay={handlePlay}
           />
         </Box>
