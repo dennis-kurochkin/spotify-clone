@@ -94,7 +94,10 @@ const PlayerActions = () => {
 
         if (playlist) {
           dispatch(playerSlice.actions.setActiveSong(playlist.songs[0]))
-          dispatch(playerSlice.actions.setPlaylist(playlist.songs))
+          dispatch(playerSlice.actions.setPlaylist({
+            playlistId: playlist.id,
+            playlistSongs: playlist.songs,
+          }))
         } else {
           toast({
             title: 'No playlists found',

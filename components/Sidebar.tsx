@@ -127,14 +127,7 @@ const Sidebar = () => {
       <Divider marginTop={'12px'} />
       <List className={styles.playlistsList}>
         {playlists.map((playlist, index) => (
-          <ListItem
-            key={`${playlist.id}-${index}`}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
+          <ListItem key={`${playlist.id}-${index}`}>
             <LinkBox>
               <NextLink
                 href={`/playlist/${playlist.id}`}
@@ -145,19 +138,26 @@ const Sidebar = () => {
                     styles.playlistsLink,
                     asPath === `/playlist/${playlist.id}` && styles.playlistsLinkCurrent
                   )}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
                 >
-                  {playlist.name}
+                  <span>
+                    {playlist.name}
+                  </span>
+                  {isPlaying && playlistId === playlist.id && (
+                    <FiVolume2
+                      style={{
+                        color: 'var(--chakra-colors-green-400)',
+                        marginLeft: 'auto',
+                      }}
+                    />
+                  )}
                 </LinkOverlay>
               </NextLink>
             </LinkBox>
-            {isPlaying && playlistId === playlist.id && (
-              <FiVolume2
-                style={{
-                  color: 'var(--chakra-colors-green-400)',
-                  marginLeft: 'auto',
-                }}
-              />
-            )}
           </ListItem>
         ))}
         {isPlaylistsLoading && (
