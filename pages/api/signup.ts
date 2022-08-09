@@ -39,6 +39,25 @@ export default async (req: SignUpApiRequest, res: NextApiResponse<ResponseData |
       },
     })
 
+    const songs = await prismaClient.song.findMany({})
+    await Promise.all(new Array(10).fill(1).map((_, index) => {
+      return prismaClient.playlist.create({
+        data: {
+          name: `Playlist #${index + 1}`,
+          avatar: 'http://placekitten.com/g/500/500',
+          description: 'Playlist description',
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+          songs: {
+            connect: songs.map((song) => ({ id: song.id })),
+          },
+        },
+      })
+    }))
+
     res.setHeader('Set-Cookie', getAuthJWTCookie({ email, id: user.id }))
     res.json({ user })
   } catch (error) {
