@@ -1,8 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Sbotify - Spotify clone](./public/logo.svg)
 
-## Getting Started
+**Sbotify** is a Spotify clone app built with TypeScript, [React](https://github.com/facebook/react), [Next.js](https://nextjs.org/) and [Prisma](https://github.com/prisma/prisma). I made it while learning more about Next.js and React in general, and now I'm happy to showcase it as a part of my portfolio.
 
-First, run the development server:
+You can visit the demo on [this webpage](https://sbotify-clone.vercel.app/) or install the project on your computer.
+
+## Authorization and User Credentials
+
+Using the demo requires authorization. You can either sign up with any email you want (even not real, there is no email confirmation), or sign in with these credentials:
+
+```
+login: user@test.com
+password: password
+```
+
+## Installation
+
+First, install all the packages with **npm**:
+
+```bash
+npm ci
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
@@ -12,35 +31,25 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Prisma commands
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To make changes in the database you'll need database credentials in yout `.env` file. You can get those using [heroku](https://www.heroku.com/) for free.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Here is the list of useful commands for Prisma ORM:
 
-## Learn More
+```bash
+# sync database with schema, detects if you need to make a migration
+npx prisma db push
 
-To learn more about Next.js, take a look at the following resources:
+# migrate database 
+npx prisma migrate dev|prod
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# generate data in database
+npx prisma db seed
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# go in prisma studio
+npx prisma studio
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## Prima commands
-
-`npx prisma db push` - sync database with schema, detects if you need to make a migration
-
-`npx prisma migrate dev|prod` - migrate database
-
-`npx prisma db seed` - generate data in database
-
-`npx prisma studio` - go in prisma studio
-
-`npx prisma migrate reset` - drop database and run migration (clears data)
+# drop database and run migration (clears data)
+npx prisma migrate reset
+```
