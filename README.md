@@ -1,4 +1,4 @@
-![Sbotify - Spotify clone](./public/logo.svg)
+[<img src="./public/logo.svg" width="350"/>](./public/logo.svg)
 
 **Sbotify** is a Spotify clone app built with TypeScript, [React](https://github.com/facebook/react), [Next.js](https://nextjs.org/) and [Prisma](https://github.com/prisma/prisma). I made it while learning more about Next.js and React in general, and now I'm happy to showcase it as a part of my portfolio.
 
